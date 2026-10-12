@@ -11,9 +11,18 @@ public static class LanguageSettings
 
     public static void Apply(string language)
     {
-        var culture = language == AppSettings.SystemLanguage
-            ? SystemCulture
-            : CultureInfo.GetCultureInfo(language);
+        var culture = SystemCulture;
+        if (language != AppSettings.SystemLanguage)
+        {
+            try
+            {
+                culture = CultureInfo.GetCultureInfo(language);
+            }
+            catch (CultureNotFoundException)
+            {
+            }
+        }
+
         CultureInfo.CurrentUICulture = culture;
         CultureInfo.CurrentCulture = culture;
         CultureInfo.DefaultThreadCurrentUICulture = culture;

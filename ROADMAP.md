@@ -304,13 +304,17 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > badges, download steps (SmartScreen note), token note, compatibility and build steps. GitHub
   > rendering not checked yet: the repository is private until 6.7.
 
-- [ ] **6.6 Downloadable GitHub release.**
+- [x] **6.6 Downloadable GitHub release.**
   Origin: user, 2026-10-12. Scope: versioned zip of the AOT `publish/` folder (e.g.
   `WindFreeControl-1.0.0-win-x64.zip`) attached to a GitHub release with short notes in pt-BR and
   English; README section "Download" with how to unzip, run and get a token; decide between a
   local `gh release create` script and a GitHub Actions workflow on tag push (windows runner
   has the MSVC tools). Depends on: the repository is private, so others can only download after it
   is made public, which waits for 6.7. Decided 2026-10-12: GitHub Actions workflow on tag push.
+  > Validation (2026-10-12): `.github/workflows/release.yml` runs on `v*.*.*` tags: tests, Native AOT
+  > publish (`publish.ps1 -Version`), zip `AirTray-<version>-win-x64.zip` (59 MB, no .pdb/.xml) and
+  > `gh release create` with `docs/release-notes.md`. First run passed end to end. Hardened after
+  > 6.7: tag validated and passed through `env`, actions pinned by commit SHA.
 
 - [ ] **6.7 Security review before making the repository public.**
   Origin: user, 2026-10-12. Last item. Scope: run the review with Sonnet sub-agents: git history
@@ -318,6 +322,20 @@ Ugly is fine. Walkable from first run to controlling the unit.
   HTTP client, registry writes, P/Invoke code in `TrayIcon`, demo flags, release zip contents.
   Findings become bullets here. Making the repository public happens only after this, and only
   with the user's explicit go-ahead.
+  > In progress (2026-10-12): three Sonnet agents reviewed secrets/history, app code, and
+  > interop/supply chain. No high findings. Fixed: hard-coded device id in `tools/dump-device.ps1`
+  > (now discovered via the API); demo mode wrote to the real Credential Locker (now `MemoryTokenStore`);
+  > API error text shortened and stripped of control characters; `Range` parsing checks number kinds;
+  > setup token cleared after saving; unknown language tags fall back to the system culture; crash
+  > log never throws and is capped at 256 KB; settings saved atomically and unreadable files fall back
+  > to defaults; Run key skips a null process path; snapshot flag only writes absolute `.png` paths,
+  > delay and width clamped; HTTP redirects disabled; tray subclass callback catches exceptions,
+  > ignores a disposed instance and frees its handle only after the subclass is removed; failed icon
+  > loads are not cached; single-instance redirect always releases the waiting thread; release
+  > workflow hardened; SECURITY.md added. Accepted as is: no NuGet lock file, tag-based trust for
+  > first-party actions beyond the SHA pin. Waiting on the user: license (MIT suggested), the personal
+  > e-mail on all commits, rewriting history to drop the old device id (still in past commits), and
+  > making the repository public.
 
 ## Phase 5 — Release
 

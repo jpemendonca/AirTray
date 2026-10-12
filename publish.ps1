@@ -20,5 +20,8 @@ if ($Version) { $extra += "-p:Version=$Version" }
 dotnet publish src/WindFreeControl.App -c Release -r win-x64 -o $out --nologo -warnaserror @extra
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
+# Debug symbols and XML docs carry build paths and are of no use to people running the app.
+Get-ChildItem $out -Recurse -File -Include *.pdb, WindFreeControl*.xml | Remove-Item -Force
+
 $size = (Get-ChildItem $out -Recurse -File | Measure-Object Length -Sum).Sum / 1MB
 Write-Host ("Published to {0} ({1:N1} MB)" -f $out, $size) -ForegroundColor Green

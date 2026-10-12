@@ -68,7 +68,9 @@ internal readonly struct StatusReader(JsonElement component)
     {
         if (Value(capability, attribute) is not { ValueKind: JsonValueKind.Object } range
             || !range.TryGetProperty("minimum", out var min)
-            || !range.TryGetProperty("maximum", out var max))
+            || !range.TryGetProperty("maximum", out var max)
+            || min.ValueKind != JsonValueKind.Number
+            || max.ValueKind != JsonValueKind.Number)
         {
             return null;
         }

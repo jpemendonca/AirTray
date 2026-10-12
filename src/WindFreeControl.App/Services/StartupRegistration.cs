@@ -11,9 +11,9 @@ public sealed class StartupRegistration : ISystemIntegration
     public void SetStartWithWindows(bool enabled)
     {
         using var key = Registry.CurrentUser.CreateSubKey(RunKey);
-        if (enabled)
+        if (enabled && Environment.ProcessPath is { } path)
         {
-            key.SetValue(ValueName, $"\"{Environment.ProcessPath}\" --startup");
+            key.SetValue(ValueName, $"\"{path}\" --startup");
         }
         else
         {

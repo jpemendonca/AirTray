@@ -58,6 +58,7 @@ public sealed partial class SetupViewModel(ITokenStore tokens, Func<string, ISma
             }
 
             tokens.Save(token);
+            Token = "";
             Connected?.Invoke(this, EventArgs.Empty);
         }
         finally

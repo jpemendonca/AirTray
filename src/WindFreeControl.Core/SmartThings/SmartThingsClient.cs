@@ -102,11 +102,19 @@ public sealed class SmartThingsClient(HttpClient http, string token) : ISmartThi
         try
         {
             var envelope = JsonSerializer.Deserialize(text, SmartThingsJsonContext.Default.ErrorEnvelopeDto);
-            return envelope?.Error?.Message ?? text;
+            return Shorten(envelope?.Error?.Message ?? text);
         }
         catch (JsonException)
         {
-            return text;
+            return Shorten(text);
         }
+    }
+
+    // A proxy or captive portal can answer with a whole HTML page; show only a short, clean prefix.
+    private static string Shorten(string text)
+    {
+        const int MaxLength = 200;
+        var clean = new string([.. text.Where(c => !char.IsControl(c))]).Trim();
+        return clean.Length <= MaxLength ? clean : clean[..MaxLength] + "…";
     }
 }

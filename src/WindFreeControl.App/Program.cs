@@ -39,8 +39,14 @@ public static class Program
         var done = new ManualResetEventSlim();
         _ = Task.Run(async () =>
         {
-            await instance.RedirectActivationToAsync(activation);
-            done.Set();
+            try
+            {
+                await instance.RedirectActivationToAsync(activation);
+            }
+            finally
+            {
+                done.Set();
+            }
         });
         done.Wait(TimeSpan.FromSeconds(5));
         return true;

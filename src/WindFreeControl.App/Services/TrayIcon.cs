@@ -51,6 +51,11 @@ public sealed unsafe partial class TrayIcon : IDisposable
         {
             var size = GetSystemMetrics(49);
             icon = LoadImageW(0, iconPath, ImageIcon, size, size, LrLoadFromFile);
+            if (icon == 0)
+            {
+                return;
+            }
+
             _icons[iconPath] = icon;
         }
 
@@ -69,13 +74,16 @@ public sealed unsafe partial class TrayIcon : IDisposable
 
         _disposed = true;
         Notify(NimDelete);
-        RemoveWindowSubclass(_window, &SubclassProc, SubclassId);
         foreach (var icon in _icons.Values)
         {
             DestroyIcon(icon);
         }
 
-        _self.Free();
+        // If the subclass cannot be removed the callback may still run, so the handle must stay alive.
+        if (RemoveWindowSubclass(_window, &SubclassProc, SubclassId) != 0)
+        {
+            _self.Free();
+        }
     }
 
     private void Notify(uint message)
@@ -117,7 +125,7 @@ public sealed unsafe partial class TrayIcon : IDisposable
         SetForegroundWindow(_window);
         var chosen = TrackPopupMenuEx(menu, TpmReturnCmd | TpmRightButton, cursor.X, cursor.Y, _window, 0);
         DestroyMenu(menu);
-        if (chosen > 0 && chosen <= items.Count)
+        if (!_disposed && chosen > 0 && chosen <= items.Count)
         {
             items[chosen - 1].Invoke();
         }
@@ -126,22 +134,32 @@ public sealed unsafe partial class TrayIcon : IDisposable
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
     private static nint SubclassProc(nint window, uint message, nint wParam, nint lParam, nuint id, nuint data)
     {
-        var tray = (TrayIcon)GCHandle.FromIntPtr((nint)data).Target!;
-        if (message == CallbackMessage)
+        // An exception escaping an UnmanagedCallersOnly method ends the process, so log and continue.
+        try
         {
-            switch ((uint)lParam)
+            if (GCHandle.FromIntPtr((nint)data).Target is TrayIcon { _disposed: false } tray)
             {
-                case WmLeftButtonUp:
-                    tray.Activated?.Invoke(tray, EventArgs.Empty);
-                    return 0;
-                case WmRightButtonUp:
-                    tray.ShowMenu();
-                    return 0;
+                if (message == CallbackMessage)
+                {
+                    switch ((uint)lParam)
+                    {
+                        case WmLeftButtonUp:
+                            tray.Activated?.Invoke(tray, EventArgs.Empty);
+                            return 0;
+                        case WmRightButtonUp:
+                            tray.ShowMenu();
+                            return 0;
+                    }
+                }
+                else if (message == TaskbarCreated && tray._currentIcon != 0)
+                {
+                    tray.Notify(NimAdd);
+                }
             }
         }
-        else if (message == TaskbarCreated && tray._currentIcon != 0)
+        catch (Exception ex)
         {
-            tray.Notify(NimAdd);
+            CrashLog.Write(ex);
         }
 
         return DefSubclassProc(window, message, wParam, lParam);

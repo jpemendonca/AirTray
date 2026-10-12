@@ -1,5 +1,6 @@
 param(
-    [string]$DeviceId = "00000000-0000-0000-0000-000000000000"
+    # Optional: by default the first air conditioner on the account is used.
+    [string]$DeviceId
 )
 
 $ErrorActionPreference = "Stop"
@@ -10,6 +11,13 @@ if (-not $env:ST_TOKEN) {
 
 $headers = @{ Authorization = "Bearer $env:ST_TOKEN" }
 $base = "https://api.smartthings.com/v1"
+if (-not $DeviceId) {
+    $devices = (Invoke-RestMethod "$base/devices" -Headers $headers).items
+    $ac = $devices | Where-Object { $_.ocf.ocfDeviceType -eq "oic.d.airconditioner" } | Select-Object -First 1
+    if (-not $ac) { throw "No air conditioner found on this account. Pass -DeviceId." }
+    $DeviceId = $ac.deviceId
+}
+
 $out = Join-Path $PSScriptRoot "out"
 New-Item -ItemType Directory -Force $out | Out-Null
 

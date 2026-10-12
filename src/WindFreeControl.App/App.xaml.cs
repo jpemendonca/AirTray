@@ -11,7 +11,7 @@ public partial class App : Application
     private static DispatcherQueue? _dispatcher;
     private static MainWindow? _runningWindow;
 
-    private readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(15) };
+    private readonly HttpClient _http = new(new SocketsHttpHandler { AllowAutoRedirect = false }) { Timeout = TimeSpan.FromSeconds(15) };
     private MainWindow? _window;
 
     public App()
@@ -29,13 +29,14 @@ public partial class App : Application
         _dispatcher = DispatcherQueue.GetForCurrentThread();
         var options = LaunchOptions.Parse(Environment.GetCommandLineArgs());
 
-        // Demo runs never touch the real settings file or the Run registry key.
+        // Demo runs never touch the real token, settings file or Run registry key.
+        ITokenStore tokens = options.Demo ? new MemoryTokenStore() : new CredentialLockerTokenStore();
         ISettingsStore settings = options.Demo ? new MemorySettingsStore() : new JsonSettingsStore();
         ISystemIntegration system = options.Demo ? new NoSystemIntegration() : new StartupRegistration();
         var loaded = settings.Load();
         LanguageSettings.Apply(options.Language ?? loaded.Language);
 
-        _window = new MainWindow(_http, new CredentialLockerTokenStore(), settings, system, options.Demo, options.DemoRejectToken);
+        _window = new MainWindow(_http, tokens, settings, system, options.Demo, options.DemoRejectToken);
         _window.ShowStart();
         if (options.Demo && options.SnapshotPath is { } path)
         {

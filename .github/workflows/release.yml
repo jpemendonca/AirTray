@@ -10,10 +10,16 @@ permissions:
 jobs:
   release:
     runs-on: windows-latest
+    env:
+      TAG: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@v4
+      - name: Validate tag
+        shell: pwsh
+        run: if ($env:TAG -notmatch '^v\d+\.\d+\.\d+$') { throw "Tag must look like v1.2.3" }
 
-      - uses: actions/setup-dotnet@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+
+      - uses: actions/setup-dotnet@67a3573c9a986a3f9c594539f4ab511d57bb3ce9 # v4
         with:
           global-json-file: global.json
 
@@ -22,18 +28,16 @@ jobs:
 
       - name: Publish (Native AOT)
         shell: pwsh
-        run: ./publish.ps1 -Version ("${{ github.ref_name }}".TrimStart("v"))
+        run: ./publish.ps1 -Version $env:TAG.TrimStart("v")
 
       - name: Zip
         shell: pwsh
-        run: |
-          $version = "${{ github.ref_name }}".TrimStart("v")
-          Compress-Archive -Path publish/* -DestinationPath "AirTray-$version-win-x64.zip"
+        run: Compress-Archive -Path publish/* -DestinationPath "AirTray-$($env:TAG.TrimStart('v'))-win-x64.zip"
 
       - name: Create release
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "${{ github.ref_name }}" (Get-Item AirTray-*.zip).FullName `
-            --title "AirTray ${{ github.ref_name }}" --notes-file docs/release-notes.md
+          gh release create $env:TAG (Get-Item AirTray-*.zip).FullName `
+            --title "AirTray $env:TAG" --notes-file docs/release-notes.md
