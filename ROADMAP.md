@@ -238,6 +238,18 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): `tools/make-icons.py` draws app.ico (blue, three waves), tray-on/off and
   > a 16 px title-bar PNG; exe icon via `ApplicationIcon`, window via `AppWindow.SetIcon`.
 
+- [x] **4.5 Single instance.**
+  Origin: user, 2026-10-12: two copies of the published app were running. Scope: custom `Program.Main`
+  with `AppInstance.FindOrRegisterForKey`; a second launch redirects its activation to the running
+  instance, which shows its window (also from the tray), and exits. Demo runs use a separate key so
+  agent checks never reach the user's instance. Acceptance: second launch exits and the first
+  instance's window becomes visible.
+  > Validation (2026-10-12): demo test: first copy started hidden (no window); a second launch exited
+  > with code 0 within the timeout and the first copy's window became visible. Real-mode key is
+  > "WindFreeControl", demo key "WindFreeControl.Demo".
+  > Validation (2026-10-12): demo test: first copy started hidden; a second launch exited with code 0
+  > and the first copy's window became visible. Published build updated.
+
 ## Phase 5 — Release
 
 - [ ] **5.1 Publish and measure.** Final AOT publish; record start time and memory against the

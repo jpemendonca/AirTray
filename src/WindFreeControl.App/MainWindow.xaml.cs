@@ -234,7 +234,7 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private void ShowFromTray()
+    public void ShowFromTray()
     {
         AppWindow.Show();
         Activate();

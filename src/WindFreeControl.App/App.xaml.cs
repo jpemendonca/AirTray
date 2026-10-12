@@ -1,3 +1,4 @@
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using WindFreeControl.App.Services;
 using WindFreeControl.Core.Abstractions;
@@ -7,6 +8,9 @@ namespace WindFreeControl.App;
 
 public partial class App : Application
 {
+    private static DispatcherQueue? _dispatcher;
+    private static MainWindow? _runningWindow;
+
     private readonly HttpClient _http = new() { Timeout = TimeSpan.FromSeconds(15) };
     private MainWindow? _window;
 
@@ -16,8 +20,13 @@ public partial class App : Application
         UnhandledException += (_, e) => CrashLog.Write(e.Exception);
     }
 
+    // Called on a background thread when a second launch redirects to this instance.
+    public static void ShowRunningWindow() =>
+        _dispatcher?.TryEnqueue(() => _runningWindow?.ShowFromTray());
+
     protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
+        _dispatcher = DispatcherQueue.GetForCurrentThread();
         var options = LaunchOptions.Parse(Environment.GetCommandLineArgs());
 
         // Demo runs never touch the real settings file or the Run registry key.
@@ -42,6 +51,7 @@ public partial class App : Application
             return;
         }
 
+        _runningWindow = _window;
         _window.Open(startHidden: options.Startup || loaded.StartMinimized);
     }
 }
