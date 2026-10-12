@@ -23,6 +23,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private double? _pendingTarget;
     private int _commandsInFlight;
     private bool _applying;
+    private bool? _lightViaExecute;
     private DateTimeOffset _lastUpdate;
 
     public MainViewModel(ISmartThingsClient client)
@@ -108,6 +109,12 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     [ObservableProperty]
     public partial bool HasSound { get; set; }
+
+    [ObservableProperty]
+    public partial bool LightOn { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasLight { get; set; }
 
     [ObservableProperty]
     public partial bool AutoCleanOn { get; set; }
@@ -228,6 +235,30 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
     }
 
+    // The lighting capability is listed as disabled on this unit, so it may reject the command.
+    // Then the OCF execute fallback is tried. Its effect is not reported back in the status, so
+    // the toggle keeps the last value the user chose.
+    partial void OnLightOnChanged(bool value)
+    {
+        if (_applying)
+        {
+            return;
+        }
+
+        if (_lightViaExecute is not null)
+        {
+            _lightViaExecute = value;
+            Fire(SendAsync(Commands.LightingViaExecute(value), s => s));
+            return;
+        }
+
+        Fire(SendAsync(
+            Commands.Lighting(value),
+            s => s with { Lighting = value ? "on" : "off" },
+            fallback: Commands.LightingViaExecute(value),
+            onFallback: () => _lightViaExecute = value));
+    }
+
     partial void OnAutoCleanOnChanged(bool value)
     {
         if (!_applying)
@@ -279,7 +310,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         await SendAsync(Commands.TargetTemperature(target), s => s with { TargetTemperature = target });
     }
 
-    private async Task SendAsync(DeviceCommand command, Func<AcState, AcState> optimistic)
+    private async Task SendAsync(
+        DeviceCommand command,
+        Func<AcState, AcState> optimistic,
+        DeviceCommand? fallback = null,
+        Action? onFallback = null)
     {
         if (_state is null || _deviceId is null)
         {
@@ -291,6 +326,15 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         {
             Apply(optimistic(_state));
             var result = await _client.SendAsync(_deviceId, [command], _lifetime.Token);
+            if (!result.IsSuccess && result.Error.Kind == SmartThingsErrorKind.Rejected && fallback is not null)
+            {
+                result = await _client.SendAsync(_deviceId, [fallback], _lifetime.Token);
+                if (result.IsSuccess)
+                {
+                    onFallback?.Invoke();
+                }
+            }
+
             if (result.IsSuccess)
             {
                 Error = null;
@@ -394,6 +438,9 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
         HasSound = state.Volume is not null;
         SoundOn = state.Volume > 0;
+
+        HasLight = state.Lighting is not null;
+        LightOn = _lightViaExecute ?? state.Lighting is not "off";
 
         HasAutoClean = state.AutoClean is not null;
         AutoCleanOn = state.AutoClean == true;

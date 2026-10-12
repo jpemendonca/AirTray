@@ -192,6 +192,25 @@
                                 OffContent=""
                                 OnContent="" />
                         </Grid>
+                        <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.HasLight, Mode=OneWay}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <FontIcon VerticalAlignment="Center" Glyph="&#xEA80;" />
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock Text="{x:Bind loc:Strings.Light_Title}" />
+                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Light_Description}" TextWrapping="Wrap" />
+                            </StackPanel>
+                            <ToggleSwitch
+                                Grid.Column="2"
+                                MinWidth="0"
+                                AutomationProperties.Name="{x:Bind loc:Strings.Light_Title}"
+                                IsOn="{x:Bind ViewModel.LightOn, Mode=TwoWay}"
+                                OffContent=""
+                                OnContent="" />
+                        </Grid>
                         <Grid ColumnSpacing="12" Visibility="{x:Bind ViewModel.HasAutoClean, Mode=OneWay}">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto" />

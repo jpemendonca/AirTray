@@ -1,3 +1,5 @@
+using System.Text.Json.Nodes;
+
 namespace WindFreeControl.Core.SmartThings;
 
 public static class Commands
@@ -31,6 +33,17 @@ public static class Commands
 
     public static DeviceCommand ResetFilter() =>
         new("custom.dustFilter", "resetDustFilter", []);
+
+    public static DeviceCommand Lighting(bool on) =>
+        new("samsungce.airConditionerLighting", on ? "on" : "off", []);
+
+    // OCF fallback for units that ignore the lighting capability. Reported on Samsung AC forums;
+    // a few models invert the meaning of Light_On / Light_Off.
+    public static DeviceCommand LightingViaExecute(bool on) =>
+        new("execute", "execute", ["mode/vs/0", CommandArgument.FromJson(new JsonObject
+        {
+            ["x.com.samsung.da.options"] = new JsonArray(on ? "Light_On" : "Light_Off"),
+        })]);
 
     public static DeviceCommand SelfCheck(bool start) =>
         new("samsungce.selfCheck", start ? "startSelfCheck" : "cancelSelfCheck", []);

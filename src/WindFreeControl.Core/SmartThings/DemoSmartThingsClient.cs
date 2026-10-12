@@ -19,6 +19,8 @@ public sealed class DemoSmartThingsClient : ISmartThingsClient
         [("custom.airConditionerTropicalNightMode", "setAcTropicalNightModeLevel")] = "acTropicalNightModeLevel",
         [("custom.autoCleaningMode", "setAutoCleaningMode")] = "autoCleaningMode",
         [("audioVolume", "setVolume")] = "volume",
+        [("samsungce.airConditionerLighting", "on")] = "lighting",
+        [("samsungce.airConditionerLighting", "off")] = "lighting",
         [("custom.dustFilter", "resetDustFilter")] = "dustFilterUsage",
         [("samsungce.selfCheck", "startSelfCheck")] = "status",
         [("samsungce.selfCheck", "cancelSelfCheck")] = "status",

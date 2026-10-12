@@ -8,20 +8,28 @@ public readonly record struct CommandArgument
 {
     private readonly string? _text;
     private readonly double _number;
+    private readonly JsonNode? _json;
 
-    private CommandArgument(string? text, double number)
+    private CommandArgument(string? text, double number, JsonNode? json = null)
     {
         _text = text;
         _number = number;
+        _json = json;
     }
 
     public static implicit operator CommandArgument(string text) => new(text, 0);
 
     public static implicit operator CommandArgument(double number) => new(null, number);
 
+    public static CommandArgument FromJson(JsonNode json) => new(null, 0, json);
+
     public void WriteTo(Utf8JsonWriter writer)
     {
-        if (_text is not null)
+        if (_json is not null)
+        {
+            _json.WriteTo(writer);
+        }
+        else if (_text is not null)
         {
             writer.WriteStringValue(_text);
         }
@@ -32,8 +40,8 @@ public readonly record struct CommandArgument
     }
 
     public JsonNode ToJsonNode() =>
-        _text is not null ? JsonValue.Create(_text) : JsonValue.Create(_number);
+        _json?.DeepClone() ?? (_text is not null ? JsonValue.Create(_text) : JsonValue.Create(_number));
 
     public override string ToString() =>
-        _text ?? _number.ToString(CultureInfo.InvariantCulture);
+        _json?.ToJsonString() ?? _text ?? _number.ToString(CultureInfo.InvariantCulture);
 }

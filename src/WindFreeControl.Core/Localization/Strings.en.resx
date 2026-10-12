@@ -330,4 +330,10 @@
   <data name="Tray_Tooltip" xml:space="preserve">
     <value>{0}: {1}</value>
   </data>
+  <data name="Light_Title" xml:space="preserve">
+    <value>Display light</value>
+  </data>
+  <data name="Light_Description" xml:space="preserve">
+    <value>Turns the panel display on the unit on or off.</value>
+  </data>
 </root>

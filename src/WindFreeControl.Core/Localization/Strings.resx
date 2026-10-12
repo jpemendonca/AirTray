@@ -330,4 +330,10 @@
   <data name="Tray_Tooltip" xml:space="preserve">
     <value>{0}: {1}</value>
   </data>
+  <data name="Light_Title" xml:space="preserve">
+    <value>Luz do display</value>
+  </data>
+  <data name="Light_Description" xml:space="preserve">
+    <value>Acende ou apaga os números no painel do ar.</value>
+  </data>
 </root>

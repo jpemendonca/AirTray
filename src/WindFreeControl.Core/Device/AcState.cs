@@ -36,6 +36,8 @@ public sealed record AcState
 
     public double? Volume { get; init; }
 
+    public string? Lighting { get; init; }
+
     public double? FilterUsagePercent { get; init; }
 
     public string? FilterStatus { get; init; }
@@ -75,6 +77,7 @@ public sealed record AcState
             AutoClean = main.String("custom.autoCleaningMode", "autoCleaningMode") is { } clean ? clean != "off" : null,
             IsAutoCleaning = main.String("custom.autoCleaningMode", "operatingState") is { } cleaning && cleaning != "ready",
             Volume = main.Number("audioVolume", "volume"),
+            Lighting = main.String("samsungce.airConditionerLighting", "lighting"),
             FilterUsagePercent = main.Number("custom.dustFilter", "dustFilterUsage"),
             FilterStatus = main.String("custom.dustFilter", "dustFilterStatus"),
             FilterCapacityHours = main.Number("custom.dustFilter", "dustFilterCapacity"),

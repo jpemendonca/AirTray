@@ -204,6 +204,11 @@ Ugly is fine. Walkable from first run to controlling the unit.
   hide the control.
   > Blocked (2026-10-12): proving it needs commands sent to the real unit, and the user asked the
   > agent not to operate the AC. No control shipped. Next step: user tries it once, agent adds it.
+  > In progress (2026-10-12): user asked for the control. Toggle shipped in "Conforto e opções":
+  > sends `samsungce.airConditionerLighting` on/off; on 422 it falls back to `execute` `mode/vs/0`
+  > with `Light_On`/`Light_Off` and then keeps the toggle at the user's last choice. The agent sent
+  > nothing to the unit. Missing: user flips it on the real unit and reports which path works and
+  > whether Light_On/Off is inverted.
 - [x] **3.7 Self-check and device info.** Start/cancel self-check, show progress and error codes;
   read-only firmware/model info in an expander.
   > Validation (2026-10-12): start/cancel with progress and error codes; firmware, Wi-Fi module and

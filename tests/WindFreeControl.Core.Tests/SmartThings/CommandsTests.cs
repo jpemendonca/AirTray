@@ -16,6 +16,8 @@ public class CommandsTests
         { Commands.AutoClean(true), """{"component":"main","capability":"custom.autoCleaningMode","command":"setAutoCleaningMode","arguments":["on"]}""" },
         { Commands.Volume(0), """{"component":"main","capability":"audioVolume","command":"setVolume","arguments":[0]}""" },
         { Commands.ResetFilter(), """{"component":"main","capability":"custom.dustFilter","command":"resetDustFilter","arguments":[]}""" },
+        { Commands.Lighting(false), """{"component":"main","capability":"samsungce.airConditionerLighting","command":"off","arguments":[]}""" },
+        { Commands.LightingViaExecute(false), """{"component":"main","capability":"execute","command":"execute","arguments":["mode/vs/0",{"x.com.samsung.da.options":["Light_Off"]}]}""" },
         { Commands.SelfCheck(true), """{"component":"main","capability":"samsungce.selfCheck","command":"startSelfCheck","arguments":[]}""" },
         { Commands.OptionalMode("windFree"), """{"component":"main","capability":"custom.airConditionerOptionalMode","command":"setAcOptionalMode","arguments":["windFree"]}""" },
     };
