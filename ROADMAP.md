@@ -269,11 +269,36 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): card, strings, view model properties, AcState fields and the energy
   > assertions removed; snapshot shows Conforto e opções right after Modos especiais.
 
-- [ ] **6.3 Security review before making the repository public.**
-  Origin: user, 2026-10-12. Scope: run the review with Sonnet sub-agents: git history and fixtures
-  for secrets or personal ids, token handling (Credential Locker, logs, crash log), HTTP client,
-  registry writes, P/Invoke code in `TrayIcon`, demo flags. Findings become bullets here.
-  Do not start until the user asks.
+- [ ] **6.3 Expired token message.**
+  Origin: user, 2026-10-12 (chose this over OAuth). Scope: on 401 the setup page says the token
+  expired or is invalid, explains that tokens created after 2024-12-30 last 24 h, and links to the
+  token page; README states the same. OAuth stays out of scope. Acceptance: demo client forced to
+  return 401 shows the message (off-screen snapshot).
+
+- [ ] **6.4 Tray flyout.**
+  Origin: user, 2026-10-12, modeled on a monitor-brightness tray app. Scope: left click on the tray
+  icon opens a compact borderless flyout above the clock (acrylic backdrop, rounded corners, hidden
+  from taskbar and Alt+Tab, closes when it loses focus). Content: device name, indoor temperature
+  and power button; target temperature with − and + (same debounce and range limits as the main
+  page); shortcut buttons Resfriar, WindFree, Econômico, Sono; footer "Abrir WindFree Control" and
+  a settings button. Reuses the running `MainViewModel`. Right-click menu keeps Open/Exit; "Abrir"
+  opens the full window. Acceptance: off-screen snapshot of the flyout in demo; user opens it from
+  the real tray.
+
+- [ ] **6.5 Downloadable GitHub release.**
+  Origin: user, 2026-10-12. Scope: versioned zip of the AOT `publish/` folder (e.g.
+  `WindFreeControl-1.0.0-win-x64.zip`) attached to a GitHub release with short notes in pt-BR and
+  English; README section "Download" with how to unzip, run and get a token; decide between a
+  local `gh release create` script and a GitHub Actions workflow on tag push (windows runner
+  has the MSVC tools). Depends on: the repository is private, so others can only download after it
+  is made public, which waits for 6.6. Do not start until the user asks.
+
+- [ ] **6.6 Security review before making the repository public.**
+  Origin: user, 2026-10-12. Last item. Scope: run the review with Sonnet sub-agents: git history
+  and fixtures for secrets or personal ids, token handling (Credential Locker, logs, crash log),
+  HTTP client, registry writes, P/Invoke code in `TrayIcon`, demo flags, release zip contents.
+  Findings become bullets here. Making the repository public happens only after this. Do not start
+  until the user asks.
 
 ## Phase 5 — Release
 
