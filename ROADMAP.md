@@ -293,20 +293,27 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > not opened on screen by the agent; user opens it from the tray.
   > Validation (2026-10-12): user opened the flyout from the real tray and reported it works well. Path walked.
 
-- [ ] **6.5 Downloadable GitHub release.**
+- [ ] **6.5 Showcase README.**
+  Origin: user, 2026-10-12: README with screenshots, eye-catching and well designed, for GitHub
+  and LinkedIn. Repository renamed to AirTray the same day (the app keeps its name). Scope:
+  hero image (dark and light), feature list, flyout and settings screenshots from off-screen demo
+  snapshots in `docs/images/`, download and token steps, build steps, Portuguese version in
+  `README.pt-BR.md`. Acceptance: images render on GitHub; every command in it works.
+
+- [ ] **6.6 Downloadable GitHub release.**
   Origin: user, 2026-10-12. Scope: versioned zip of the AOT `publish/` folder (e.g.
   `WindFreeControl-1.0.0-win-x64.zip`) attached to a GitHub release with short notes in pt-BR and
   English; README section "Download" with how to unzip, run and get a token; decide between a
   local `gh release create` script and a GitHub Actions workflow on tag push (windows runner
   has the MSVC tools). Depends on: the repository is private, so others can only download after it
-  is made public, which waits for 6.6. Do not start until the user asks.
+  is made public, which waits for 6.7. Decided 2026-10-12: GitHub Actions workflow on tag push.
 
-- [ ] **6.6 Security review before making the repository public.**
+- [ ] **6.7 Security review before making the repository public.**
   Origin: user, 2026-10-12. Last item. Scope: run the review with Sonnet sub-agents: git history
   and fixtures for secrets or personal ids, token handling (Credential Locker, logs, crash log),
   HTTP client, registry writes, P/Invoke code in `TrayIcon`, demo flags, release zip contents.
-  Findings become bullets here. Making the repository public happens only after this. Do not start
-  until the user asks.
+  Findings become bullets here. Making the repository public happens only after this, and only
+  with the user's explicit go-ahead.
 
 ## Phase 5 — Release
 
