@@ -1,0 +1,12 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/WindFreeControl.App/WindFreeControl.App.csproj" />
+    <Project Path="src/WindFreeControl.Core/WindFreeControl.Core.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/WindFreeControl.Core.Tests/WindFreeControl.Core.Tests.csproj" />
+  </Folder>
+</Solution>

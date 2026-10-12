@@ -25,7 +25,7 @@ User fixes and requests enter here as new bullets before any code.
   > Validation (2026-10-12): documents written from the real device dump; `tools/out/` confirmed
   > untracked by `git status`. Code written, no product to walk yet.
 
-- [ ] **0.2 Solution skeleton.**
+- [x] **0.2 Solution skeleton.**
   Origin: SPECS architecture. Scope: `WindFreeControl.slnx`, `Directory.Build.props`
   (net10.0, nullable, warnings as errors, analyzers), `Directory.Packages.props` (central package
   versions), `src/WindFreeControl.Core` (`IsAotCompatible`), `src/WindFreeControl.App`
