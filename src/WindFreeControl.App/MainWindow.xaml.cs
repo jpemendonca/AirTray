@@ -1,17 +1,72 @@
 using Microsoft.UI.Xaml;
+using WindFreeControl.App.Views;
 using WindFreeControl.Core;
+using WindFreeControl.Core.Abstractions;
+using WindFreeControl.Core.SmartThings;
+using WindFreeControl.Core.ViewModels;
 
 namespace WindFreeControl.App;
 
 public sealed partial class MainWindow : Window
 {
-    public MainWindow()
+    private readonly HttpClient _http;
+    private readonly ITokenStore _tokens;
+    private MainViewModel? _control;
+
+    public MainWindow(HttpClient http, ITokenStore tokens)
     {
+        _http = http;
+        _tokens = tokens;
         InitializeComponent();
         Title = AppInfo.Name;
         TitleText.Text = AppInfo.Name;
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBarArea);
         AppWindow.Resize(new Windows.Graphics.SizeInt32(440, 820));
+        Closed += (_, _) => _control?.Dispose();
+    }
+
+    public void ShowStart()
+    {
+        if (_tokens.Load() is { } token)
+        {
+            ShowControl(token);
+        }
+        else
+        {
+            ShowSetup(null);
+        }
+    }
+
+    private ISmartThingsClient CreateClient(string token) => new SmartThingsClient(_http, token);
+
+    private void ShowSetup(string? message)
+    {
+        ReleaseControl();
+        var viewModel = new SetupViewModel(_tokens, CreateClient) { Error = message };
+        viewModel.Connected += (_, _) => ShowStart();
+        Host.Content = new SetupPage(viewModel);
+    }
+
+    private async void ShowControl(string token)
+    {
+        ReleaseControl();
+        var viewModel = new MainViewModel(CreateClient(token));
+        viewModel.Unauthorized += (_, message) => ShowSetup(message);
+        _control = viewModel;
+        Host.Content = new ControlPage(viewModel);
+        try
+        {
+            await viewModel.StartAsync();
+        }
+        catch (OperationCanceledException) when (_control != viewModel)
+        {
+        }
+    }
+
+    private void ReleaseControl()
+    {
+        _control?.Dispose();
+        _control = null;
     }
 }

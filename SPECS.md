@@ -44,7 +44,6 @@ WindFreeControl.App (net10.0-windows10.0.19041.0, WinUI 3, unpackaged, PublishAo
   ├─ Views/SettingsPage ── binds ──> SettingsViewModel
   ├─ Services/CredentialLockerTokenStore : ITokenStore
   ├─ Services/JsonSettingsStore : ISettingsStore
-  ├─ Services/DispatcherQueueAdapter : IUiDispatcher
   └─ Tray icon (H.NotifyIcon.WinUI)
           │
           ▼

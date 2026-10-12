@@ -17,6 +17,10 @@
                 VerticalAlignment="Center"
                 Style="{StaticResource CaptionTextBlockStyle}" />
         </Grid>
-        <Frame x:Name="RootFrame" Grid.Row="1" />
+        <ContentControl
+            x:Name="Host"
+            Grid.Row="1"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch" />
     </Grid>
 </Window>

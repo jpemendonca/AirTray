@@ -56,7 +56,8 @@ JsonSerializer.Deserialize(json, SmartThingsJsonContext.Default.DeviceList);
 
 - Core never references WinUI or `Windows.*`. Enforced: Core targets `net10.0`.
 - Views never call `SmartThingsClient`. Views talk to view models only.
-- View models never touch `DispatcherQueue`; they use `IUiDispatcher`.
+- View models never touch `DispatcherQueue`. They are created and awaited on the UI thread, so
+  `await` resumes there; no manual dispatching.
 - Platform services (token, settings, tray) are interfaces in `Core/Abstractions`, implemented in App.
 
 ## Errors

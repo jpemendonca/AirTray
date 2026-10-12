@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Setup_Title" xml:space="preserve">
+    <value>Connect to SmartThings</value>
+  </data>
+  <data name="Setup_Description" xml:space="preserve">
+    <value>Paste your SmartThings personal access token. It is kept in the Windows credential vault.</value>
+  </data>
+  <data name="Setup_TokenPlaceholder" xml:space="preserve">
+    <value>Access token</value>
+  </data>
+  <data name="Setup_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+  <data name="Setup_GetToken" xml:space="preserve">
+    <value>Generate a token on SmartThings</value>
+  </data>
+  <data name="Setup_ErrorEmpty" xml:space="preserve">
+    <value>Paste the token.</value>
+  </data>
+  <data name="Setup_ErrorSpaces" xml:space="preserve">
+    <value>The token cannot contain spaces.</value>
+  </data>
+  <data name="Setup_ErrorNoDevice" xml:space="preserve">
+    <value>No air conditioner found on this account.</value>
+  </data>
+  <data name="Error_Unauthorized" xml:space="preserve">
+    <value>SmartThings rejected the token. Paste a valid token.</value>
+  </data>
+  <data name="Error_Forbidden" xml:space="preserve">
+    <value>The token lacks permission to control devices (r:devices:*, x:devices:*).</value>
+  </data>
+  <data name="Error_Rejected" xml:space="preserve">
+    <value>The air conditioner rejected the command: {0}</value>
+  </data>
+  <data name="Error_RateLimited" xml:space="preserve">
+    <value>Too many requests. Retrying shortly.</value>
+  </data>
+  <data name="Error_Network" xml:space="preserve">
+    <value>Cannot reach SmartThings.</value>
+  </data>
+  <data name="Error_Unexpected" xml:space="preserve">
+    <value>Unexpected SmartThings error: {0}</value>
+  </data>
+  <data name="Control_Loading" xml:space="preserve">
+    <value>Connecting…</value>
+  </data>
+  <data name="Control_On" xml:space="preserve">
+    <value>On</value>
+  </data>
+  <data name="Control_Off" xml:space="preserve">
+    <value>Off</value>
+  </data>
+  <data name="Control_Power" xml:space="preserve">
+    <value>Turn on or off</value>
+  </data>
+  <data name="Control_Target" xml:space="preserve">
+    <value>Target temperature</value>
+  </data>
+  <data name="Control_Increase" xml:space="preserve">
+    <value>Raise temperature</value>
+  </data>
+  <data name="Control_Decrease" xml:space="preserve">
+    <value>Lower temperature</value>
+  </data>
+  <data name="Control_Room" xml:space="preserve">
+    <value>Indoor {0}</value>
+  </data>
+  <data name="Control_Humidity" xml:space="preserve">
+    <value>Humidity {0}%</value>
+  </data>
+  <data name="Control_Mode" xml:space="preserve">
+    <value>Mode</value>
+  </data>
+  <data name="Control_Fan" xml:space="preserve">
+    <value>Fan speed</value>
+  </data>
+  <data name="Control_Wind" xml:space="preserve">
+    <value>Wind direction</value>
+  </data>
+  <data name="Control_Special" xml:space="preserve">
+    <value>Special modes</value>
+  </data>
+  <data name="Control_Stale" xml:space="preserve">
+    <value>Not updated since {0:t}</value>
+  </data>
+  <data name="Mode_auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Mode_cool" xml:space="preserve">
+    <value>Cool</value>
+  </data>
+  <data name="Mode_dry" xml:space="preserve">
+    <value>Dry</value>
+  </data>
+  <data name="Mode_wind" xml:space="preserve">
+    <value>Fan</value>
+  </data>
+  <data name="Mode_heat" xml:space="preserve">
+    <value>Heat</value>
+  </data>
+  <data name="Fan_auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
+  <data name="Fan_low" xml:space="preserve">
+    <value>Low</value>
+  </data>
+  <data name="Fan_medium" xml:space="preserve">
+    <value>Medium</value>
+  </data>
+  <data name="Fan_high" xml:space="preserve">
+    <value>High</value>
+  </data>
+  <data name="Fan_turbo" xml:space="preserve">
+    <value>Turbo</value>
+  </data>
+  <data name="Wind_fixed" xml:space="preserve">
+    <value>Fixed</value>
+  </data>
+  <data name="Wind_vertical" xml:space="preserve">
+    <value>Vertical</value>
+  </data>
+  <data name="Wind_horizontal" xml:space="preserve">
+    <value>Horizontal</value>
+  </data>
+  <data name="Wind_all" xml:space="preserve">
+    <value>All directions</value>
+  </data>
+  <data name="Optional_off" xml:space="preserve">
+    <value>None</value>
+  </data>
+  <data name="Optional_sleep" xml:space="preserve">
+    <value>Sleep</value>
+  </data>
+  <data name="Optional_quiet" xml:space="preserve">
+    <value>Quiet</value>
+  </data>
+  <data name="Optional_smart" xml:space="preserve">
+    <value>Smart</value>
+  </data>
+  <data name="Optional_speed" xml:space="preserve">
+    <value>Fast</value>
+  </data>
+  <data name="Optional_windFree" xml:space="preserve">
+    <value>WindFree</value>
+  </data>
+  <data name="Optional_windFreeSleep" xml:space="preserve">
+    <value>WindFree Sleep</value>
+  </data>
+</root>

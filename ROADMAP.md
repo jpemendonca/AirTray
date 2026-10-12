@@ -78,21 +78,31 @@ Ugly is fine. Walkable from first run to controlling the unit.
   kept raw. Caller: 1.4. Acceptance: test on the real fixture.
   > Validation (2026-10-12): `AcState.Parse` + `StatusReader`; real fixture test green. Code written.
 
-- [ ] **1.3 First-run token setup and discovery.**
+- [x] **1.3 First-run token setup and discovery.**
   Origin: main path. Scope: `ITokenStore` + `CredentialLockerTokenStore`; `TokenValidation`;
   `SetupViewModel` + `SetupPage` (paste token, "Connect", link to the SmartThings token page,
   error text); on success discover the air conditioner and navigate to the control page; on
   start with a stored token go straight to the control page; 401 anywhere returns to setup.
   Localization infrastructure lands here: `Strings.resx` + `Strings.en.resx`, culture from the
   system, parity test. Acceptance: parity test; app opens on setup without a token.
+  > Validation (2026-10-12): setup page captured from the running Debug app (pt-BR text, token
+  > field, link, Connect). Token connect not walked: needs the real token (user, 1.5).
 
-- [ ] **1.4 Control screen with live state and all main controls.**
+- [x] **1.4 Control screen with live state and all main controls.**
   Origin: main path. Scope: `MainViewModel` + `ControlPage`: power button, room temperature and
   humidity, target temperature with +/- (debounced), mode, fan, wind direction, optional mode
   (WindFree etc.) as selectable lists built from `AcState` options; optimistic update, POST,
   re-read after 2 s, rollback + `InfoBar` on failure; 15 s refresh while visible; stale marker
   on network loss. Plain stacked layout. Acceptance: build green; the control page renders the
   real fixture state through the view model (checked by running the app).
+  > Validation (2026-10-12): `MainViewModel`, `OptionGroup`, `ControlPage`. Rendering checked in
+  > 1.4a demo mode. Code written; path not walked.
+
+- [ ] **1.4a Demo mode.**
+  Origin: agent cannot use the real token, so it cannot see the control screen. Scope: `--demo`
+  argument runs the app against `DemoSmartThingsClient` (embedded scrubbed status, commands
+  applied in memory); title shows "(demo)". Acceptance: the control page renders the fixture
+  state and reacts to clicks, captured by the agent.
 
 - [ ] **1.5 Main path walked on the real unit (user).**
   Origin: definition of done. Scope: user runs the AOT published exe, pastes the token, turns the

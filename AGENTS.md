@@ -88,7 +88,7 @@ src/WindFreeControl.Core/
   SmartThings/               HTTP client, DTOs, JSON context, command builders
   Device/                    AcState (parsed status), capability enums and labels
   ViewModels/                MainViewModel, SetupViewModel (CommunityToolkit.Mvvm)
-  Abstractions/              ITokenStore, IUiDispatcher
+  Abstractions/              ITokenStore, ISettingsStore
 src/WindFreeControl.App/
   Views/                     SetupPage, ControlPage, controls
   Services/                  CredentialLockerTokenStore, dispatcher adapter
