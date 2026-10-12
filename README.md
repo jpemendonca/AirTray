@@ -56,10 +56,6 @@ and stays out of the way.
    [account.smartthings.com/tokens](https://account.smartthings.com/tokens) with the
    `Devices` scopes (`r:devices:*` and `x:devices:*`), paste it and press **Connect**.
 
-> **About tokens**: SmartThings tokens created after 2024-12-30 expire after 24 hours. When that
-> happens AirTray tells you and links straight to the token page, so pasting a new one takes a few
-> seconds. Older tokens keep working for years.
-
 ### Compatibility
 
 Tested with a Samsung WindFree wall unit (2021, `ARA-WW-TP1-22-COMMON` Wi-Fi module). Other
