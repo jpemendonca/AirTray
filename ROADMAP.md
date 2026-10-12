@@ -34,10 +34,13 @@ User fixes and requests enter here as new bullets before any code.
   Packages: Microsoft.WindowsAppSDK, Microsoft.Windows.SDK.BuildTools, CommunityToolkit.Mvvm,
   xunit.v3. Acceptance: `dotnet build` and `dotnet test` green; the app opens an empty Mica window.
 
-- [ ] **0.3 Quality gate and pre-commit hook.**
+- [x] **0.3 Quality gate and pre-commit hook.**
   Origin: AGENTS. Scope: `gate.ps1` (format verify, Release build with warnings as errors, tests),
   `.githooks/pre-commit`, `.editorconfig`. Acceptance: gate passes on a clean tree and fails on
   a deliberately misformatted file (checked once, not committed).
+  > Validation (2026-10-12): first run failed on LF line endings in `.cs` files (the misformat
+  > case, observed for real); after `dotnet format` the gate passed. Hook enabled via
+  > `core.hooksPath`. Code written.
 
 - [ ] **0.4 AOT publish smoke.**
   Origin: decision log (AOT risk must surface early). Scope: `publish.ps1` producing

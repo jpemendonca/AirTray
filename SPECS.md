@@ -214,3 +214,6 @@ from `$env:ST_TOKEN` in the user's own terminal; its output folder is git-ignore
 - 2026-10-12: Bilingual UI (pt-BR, en) with a Settings switch, requested by the user. Resources in
   Core `.resx` instead of WinUI `.resw`, because runtime switching of `.resw` in unpackaged apps
   is unreliable and `.resx` is testable from Core.
+- 2026-10-12: `GenerateDocumentationFile` is on only so the build enforces IDE0005 (unused
+  usings). CS1591 (missing XML doc) is turned off project-wide because the comment policy does not
+  use XML doc comments. This is policy, not a suppression to pass the gate.

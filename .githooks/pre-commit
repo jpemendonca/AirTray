@@ -1,0 +1,2 @@
+#!/bin/sh
+exec pwsh -NoProfile -File "$(git rev-parse --show-toplevel)/gate.ps1"
