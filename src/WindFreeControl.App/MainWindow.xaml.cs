@@ -28,6 +28,17 @@ public sealed partial class MainWindow : Window
         Closed += (_, _) => _control?.Dispose();
     }
 
+    public UIElement Root => RootGrid;
+
+    // Snapshot runs show the window outside every monitor and never activate it, so nothing
+    // appears over what the user is doing.
+    public void ShowOffscreen()
+    {
+        RootGrid.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["SolidBackgroundFillColorBaseBrush"];
+        AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(-32000, -32000, 440, 1900));
+        AppWindow.Show(false);
+    }
+
     public void ShowStart()
     {
         if (_demo)

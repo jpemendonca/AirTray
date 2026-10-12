@@ -142,17 +142,33 @@ Ugly is fine. Walkable from first run to controlling the unit.
 
 ## Phase 2 — Control screen as in SmartThings
 
-- [ ] **2.1 Hero card.**
+- [x] **2.0 Off-screen demo snapshots.**
+  Origin: user, 2026-10-12: test windows popped over a game being played. Scope: `--demo
+  --snapshot <png> [--snapshot-delay <s>]` opens the window off-screen without activating it,
+  renders the window content with `RenderTargetBitmap` after the delay, saves the PNG and exits.
+  Agents never use screen capture or bring the app to the foreground. Acceptance: snapshot PNG
+  produced while the window never appears on any monitor.
+  > Validation (2026-10-12): snapshot saved from a window placed at (-32000, -32000) and shown with
+  > `AppWindow.Show(false)`; nothing appeared over the user's game. Earlier screen-region captures
+  > were deleted.
+
+- [x] **2.1 Hero card.**
   Origin: docs/VISUAL.md. Scope: device name, on/off state, big power button, large target
   temperature with -/+ circular buttons, room temperature and humidity line, color/state accent
   by mode (cool blue, dry teal, wind green, auto purple) and greyed when off. Acceptance:
   screenshot compared with VISUAL.md by the user.
+  > Validation (2026-10-12): hero card with round power button tinted by mode, 76 px light target
+  > digits in the mode color, round −/+, indoor line with icons; grey when off. Checked in off-screen
+  > demo snapshots (on and off). Comparison by the user waived: user reviews only the finished app.
 
-- [ ] **2.2 Control cards.**
+- [x] **2.2 Control cards.**
   Origin: docs/VISUAL.md. Scope: cards for Mode, Fan speed, Wind direction, Special modes
   (WindFree first) as icon tiles (Segoe Fluent Icons), selected tile filled with accent; controls
   disabled while off (except power) and per `available*`. Acceptance: user walks the controls
   in the new layout on the real unit.
+  > Validation (2026-10-12): cards with header icon and 88 px icon tiles (glyphs in `Look/Glyphs.cs`,
+  > picked from a rendered Segoe Fluent Icons sheet), 4 per row, disabled when off. Demo only; the
+  > user asked the agent not to operate the real unit.
 
 - [ ] **2.3 Light and dark theme, window sizing.**
   Origin: native look. Scope: follow system theme; Mica; compact default size (about 440×820),

@@ -42,9 +42,8 @@ main path. Reference screenshots, when provided, live in `docs/reference/`.
 
 ## Icons (Segoe Fluent Icons, to confirm visually during Phase 2)
 
-Power `E7E8`, minus `E738`, plus `E710`, snowflake for cool (custom path if no glyph), drop for dry,
-fan/wind for wind, sync/auto for auto, settings `E713`. Phase 2 picks final glyphs and records them
-here.
+Final glyphs live in `src/WindFreeControl.App/Look/Glyphs.cs`. Power `E7E8`, minus `E738`, plus
+`E710`, cool `EA38`, dry `EB42`, wind `EDA8`, auto `E895`, economy `EC0A`, sleep `E708`.
 
 ## Layout order (top to bottom)
 

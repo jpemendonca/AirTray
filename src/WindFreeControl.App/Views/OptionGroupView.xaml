@@ -2,13 +2,19 @@
 <UserControl
     x:Class="WindFreeControl.App.Views.OptionGroupView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <StackPanel Spacing="8" Visibility="{x:Bind Group.HasItems, Mode=OneWay}">
-        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind Group.Title}" />
-        <VariableSizedWrapGrid
-            x:Name="Tiles"
-            ItemHeight="44"
-            ItemWidth="128"
-            Orientation="Horizontal" />
-    </StackPanel>
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:look="using:WindFreeControl.App.Look">
+    <Border Style="{StaticResource CardStyle}" Visibility="{x:Bind Group.HasItems, Mode=OneWay}">
+        <StackPanel Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <FontIcon FontSize="16" Glyph="{x:Bind look:Glyphs.ForGroup(Group.LabelPrefix)}" />
+                <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind Group.Title}" />
+            </StackPanel>
+            <VariableSizedWrapGrid
+                x:Name="Tiles"
+                ItemHeight="80"
+                ItemWidth="88"
+                Orientation="Horizontal" />
+        </StackPanel>
+    </Border>
 </UserControl>

@@ -11,6 +11,8 @@ public sealed partial class OptionGroup(string title, string labelPrefix, Action
 
     public string Title { get; } = title;
 
+    public string LabelPrefix { get; } = labelPrefix;
+
     public ObservableCollection<OptionItem> Items { get; } = [];
 
     [ObservableProperty]
@@ -27,7 +29,7 @@ public sealed partial class OptionGroup(string title, string labelPrefix, Action
         try
         {
             var items = options.Supported
-                .Select(v => new OptionItem(v, Labels.ForValue(labelPrefix, v), options.IsAvailable(v)))
+                .Select(v => new OptionItem(v, Labels.ForValue(LabelPrefix, v), options.IsAvailable(v)))
                 .ToList();
             if (!items.SequenceEqual(Items))
             {

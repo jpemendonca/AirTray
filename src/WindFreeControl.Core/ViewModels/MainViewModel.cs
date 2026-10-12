@@ -54,6 +54,9 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public partial string PowerText { get; set; } = "";
 
     [ObservableProperty]
+    public partial string AccentKey { get; set; } = "off";
+
+    [ObservableProperty]
     public partial string TargetText { get; set; } = "--";
 
     [ObservableProperty]
@@ -230,7 +233,10 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     {
         _state = state;
         IsOn = state.IsOn;
-        PowerText = state.IsOn ? Strings.Control_On : Strings.Control_Off;
+        PowerText = state.IsOn && state.Mode.Current is { } mode
+            ? $"{Strings.Control_On} · {Labels.ForValue("Mode_", mode)}"
+            : state.IsOn ? Strings.Control_On : Strings.Control_Off;
+        AccentKey = state.IsOn ? state.Mode.Current ?? "auto" : "off";
         TargetText = state.TargetTemperature is { } target ? Labels.Temperature(target) : "--";
         CanIncreaseTarget = state.IsOn && state.TargetTemperature < state.TargetRange.Maximum;
         CanDecreaseTarget = state.IsOn && state.TargetTemperature > state.TargetRange.Minimum;

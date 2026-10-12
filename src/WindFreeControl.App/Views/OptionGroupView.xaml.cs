@@ -3,6 +3,7 @@ using System.ComponentModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
+using WindFreeControl.App.Look;
 using WindFreeControl.Core.ViewModels;
 
 namespace WindFreeControl.App.Views;
@@ -59,13 +60,28 @@ public sealed partial class OptionGroupView : UserControl
         for (var i = 0; i < Group.Items.Count; i++)
         {
             var index = i;
+            var item = Group.Items[i];
+            var content = new StackPanel { Spacing = 6, HorizontalAlignment = HorizontalAlignment.Center };
+            content.Children.Add(new FontIcon { Glyph = Glyphs.ForValue(Group.LabelPrefix, item.Value), FontSize = 20 });
+            content.Children.Add(new TextBlock
+            {
+                Text = item.Label,
+                FontSize = 11,
+                TextAlignment = TextAlignment.Center,
+                TextWrapping = TextWrapping.Wrap,
+                MaxLines = 2,
+            });
             var tile = new ToggleButton
             {
-                Content = Group.Items[i].Label,
+                Content = content,
+                Padding = new Thickness(4),
+                CornerRadius = new CornerRadius(8),
                 HorizontalAlignment = HorizontalAlignment.Stretch,
                 VerticalAlignment = VerticalAlignment.Stretch,
-                Margin = new Thickness(0, 0, 8, 8),
+                Margin = new Thickness(0, 0, 6, 6),
             };
+            ToolTipService.SetToolTip(tile, item.Label);
+            Microsoft.UI.Xaml.Automation.AutomationProperties.SetName(tile, item.Label);
             tile.Click += (_, _) =>
             {
                 Group.SelectedIndex = index;

@@ -14,11 +14,20 @@ public partial class App : Application
         UnhandledException += (_, e) => CrashLog.Write(e.Exception);
     }
 
-    protected override void OnLaunched(LaunchActivatedEventArgs args)
+    protected override async void OnLaunched(LaunchActivatedEventArgs args)
     {
-        var demo = Environment.GetCommandLineArgs().Contains("--demo");
-        _window = new MainWindow(_http, new CredentialLockerTokenStore(), demo);
+        var options = LaunchOptions.Parse(Environment.GetCommandLineArgs());
+        _window = new MainWindow(_http, new CredentialLockerTokenStore(), options.Demo);
         _window.ShowStart();
+        if (options.Demo && options.SnapshotPath is { } path)
+        {
+            _window.ShowOffscreen();
+            await Task.Delay(options.SnapshotDelay);
+            await Snapshot.SaveAsync(_window.Root, path);
+            Exit();
+            return;
+        }
+
         _window.Activate();
     }
 }
