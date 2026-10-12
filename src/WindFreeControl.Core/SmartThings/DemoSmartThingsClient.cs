@@ -16,6 +16,12 @@ public sealed class DemoSmartThingsClient : ISmartThingsClient
         [("airConditionerFanMode", "setFanMode")] = "fanMode",
         [("fanOscillationMode", "setFanOscillationMode")] = "fanOscillationMode",
         [("custom.airConditionerOptionalMode", "setAcOptionalMode")] = "acOptionalMode",
+        [("custom.airConditionerTropicalNightMode", "setAcTropicalNightModeLevel")] = "acTropicalNightModeLevel",
+        [("custom.autoCleaningMode", "setAutoCleaningMode")] = "autoCleaningMode",
+        [("audioVolume", "setVolume")] = "volume",
+        [("custom.dustFilter", "resetDustFilter")] = "dustFilterUsage",
+        [("samsungce.selfCheck", "startSelfCheck")] = "status",
+        [("samsungce.selfCheck", "cancelSelfCheck")] = "status",
     };
 
     private readonly JsonNode _status;
@@ -47,8 +53,20 @@ public sealed class DemoSmartThingsClient : ISmartThingsClient
                     new SmartThingsError(SmartThingsErrorKind.Rejected, $"{command.Capability}.{command.Command}")));
             }
 
-            var value = command.Arguments.Count > 0 ? command.Arguments[0].ToJsonNode() : JsonValue.Create(command.Command);
+            var value = command.Command switch
+            {
+                "resetDustFilter" => JsonValue.Create(0),
+                "startSelfCheck" => JsonValue.Create("run"),
+                "cancelSelfCheck" => JsonValue.Create("ready"),
+                _ when command.Arguments.Count > 0 => command.Arguments[0].ToJsonNode(),
+                _ => JsonValue.Create(command.Command),
+            };
             _status["components"]!["main"]![command.Capability]![attribute]!["value"] = value;
+            if (command.Command == "resetDustFilter")
+            {
+                _status["components"]!["main"]!["custom.dustFilter"]!["dustFilterStatus"]!["value"] = "normal";
+            }
+
             if (command.Command == "setAcOptionalMode")
             {
                 ApplyEconomyFloor(command.Arguments[0].ToString() == "smart");

@@ -10,7 +10,7 @@ function Step([string]$name, [scriptblock]$command) {
     }
 }
 
-Step "format" { dotnet format WindFreeControl.slnx --verify-no-changes --verbosity quiet }
+Step "format" { dotnet format WindFreeControl.slnx --verify-no-changes --exclude-diagnostics IDE0005 --verbosity quiet }
 Step "build" { dotnet build WindFreeControl.slnx -c Release -warnaserror --nologo --verbosity quiet }
 Step "test" { dotnet test --solution WindFreeControl.slnx -c Release --no-build }
 

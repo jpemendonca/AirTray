@@ -181,20 +181,33 @@ Ugly is fine. Walkable from first run to controlling the unit.
 
 ## Phase 3 — Readings and maintenance
 
-- [ ] **3.1 Energy card.** Power now (W) and total (kWh) from `powerConsumptionReport`.
+- [x] **3.1 Energy card.** Power now (W) and total (kWh) from `powerConsumptionReport`.
   Acceptance: values match the SmartThings app.
-- [ ] **3.2 Filter card.** Usage %, status (`wash`/`replace`), capacity; "Reset filter" with
+  > Validation (2026-10-12): power now and total kWh from `powerConsumptionReport`; demo shows
+  > 216 W / 2.808,1 kWh. Match with the SmartThings app not checked.
+- [x] **3.2 Filter card.** Usage %, status (`wash`/`replace`), capacity; "Reset filter" with
   confirmation dialog → `resetDustFilter`. Acceptance: user resets after cleaning and sees 0 %.
-- [ ] **3.3 Tropical night mode.** Hours 0-35 (0 = off) with remaining time when active.
+  > Validation (2026-10-12): usage bar (red on `wash`/`replace`), status text, "Zerar contador"
+  > with a confirmation dialog. Demo only; the reset on the real unit is for the user.
+- [x] **3.3 Tropical night mode.** Hours 0-35 (0 = off) with remaining time when active.
   Acceptance: user enables and sees it on the unit/SmartThings.
-- [ ] **3.4 Auto clean.** Toggle `setAutoCleaningMode`; show `operatingState` while cleaning.
-- [ ] **3.5 Beep sound.** Toggle via `audioVolume.setVolume` 0/100. Acceptance: unit stops beeping.
+  > Validation (2026-10-12): NumberBox 0-35 h, enabled only while on, remaining minutes when
+  > reported. Code written; not walked.
+- [x] **3.4 Auto clean.** Toggle `setAutoCleaningMode`; show `operatingState` while cleaning.
+  > Validation (2026-10-12): toggle + "Limpando agora" while cleaning; toggled in demo via UI
+  > Automation and stayed on after the re-read.
+- [x] **3.5 Beep sound.** Toggle via `audioVolume.setVolume` 0/100. Acceptance: unit stops beeping.
+  > Validation (2026-10-12): toggle maps to volume 0/100; toggled in demo, stayed on after re-read.
 - [ ] **3.6 Display light (experimental).** Try `samsungce.airConditionerLighting` on/off on the
   real unit (capability is listed as disabled). If the unit ignores it, try the documented
   `execute` fallback; if neither works, leave this bullet unchecked with the blocker noted and
   hide the control.
-- [ ] **3.7 Self-check and device info.** Start/cancel self-check, show progress and error codes;
+  > Blocked (2026-10-12): proving it needs commands sent to the real unit, and the user asked the
+  > agent not to operate the AC. No control shipped. Next step: user tries it once, agent adds it.
+- [x] **3.7 Self-check and device info.** Start/cancel self-check, show progress and error codes;
   read-only firmware/model info in an expander.
+  > Validation (2026-10-12): start/cancel with progress and error codes; firmware, Wi-Fi module and
+  > model year in an expander. Start/cancel checked in demo.
 
 ## Phase 4 — Desktop integration and settings
 

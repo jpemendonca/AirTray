@@ -12,6 +12,11 @@ public class CommandsTests
         { Commands.Mode("cool"), """{"component":"main","capability":"airConditionerMode","command":"setAirConditionerMode","arguments":["cool"]}""" },
         { Commands.FanMode("turbo"), """{"component":"main","capability":"airConditionerFanMode","command":"setFanMode","arguments":["turbo"]}""" },
         { Commands.WindDirection("all"), """{"component":"main","capability":"fanOscillationMode","command":"setFanOscillationMode","arguments":["all"]}""" },
+        { Commands.TropicalNight(8), """{"component":"main","capability":"custom.airConditionerTropicalNightMode","command":"setAcTropicalNightModeLevel","arguments":[8]}""" },
+        { Commands.AutoClean(true), """{"component":"main","capability":"custom.autoCleaningMode","command":"setAutoCleaningMode","arguments":["on"]}""" },
+        { Commands.Volume(0), """{"component":"main","capability":"audioVolume","command":"setVolume","arguments":[0]}""" },
+        { Commands.ResetFilter(), """{"component":"main","capability":"custom.dustFilter","command":"resetDustFilter","arguments":[]}""" },
+        { Commands.SelfCheck(true), """{"component":"main","capability":"samsungce.selfCheck","command":"startSelfCheck","arguments":[]}""" },
         { Commands.OptionalMode("windFree"), """{"component":"main","capability":"custom.airConditionerOptionalMode","command":"setAcOptionalMode","arguments":["windFree"]}""" },
     };
 

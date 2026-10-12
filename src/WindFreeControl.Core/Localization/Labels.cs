@@ -8,8 +8,8 @@ public static class Labels
     public static string ForValue(string prefix, string value) =>
         Strings.ResourceManager.GetString(prefix + value, Strings.Culture) ?? value;
 
-    public static string Format(string template, object? value) =>
-        string.Format(CultureInfo.CurrentCulture, template, value);
+    public static string Format(string template, params object?[] values) =>
+        string.Format(CultureInfo.CurrentCulture, template, values);
 
     public static string ForError(SmartThingsError error) => error.Kind switch
     {

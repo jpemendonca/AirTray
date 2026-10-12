@@ -51,7 +51,8 @@ one-line note below it with the blocker, and move to the next one.
 ./gate.ps1
 ```
 
-It runs `dotnet format --verify-no-changes`, `dotnet build -c Release -warnaserror` (including
+It runs `dotnet format --verify-no-changes` (minus IDE0005: format cannot see the resource class
+generated at build time; the build enforces IDE0005 instead), `dotnet build -c Release -warnaserror` (including
 AOT/trim analyzers) and `dotnet test`. The pre-commit hook in `.githooks/` calls it; enable it once
 per clone with `git config core.hooksPath .githooks`.
 

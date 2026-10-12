@@ -20,6 +20,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private AcState? _state;
     private double? _pendingTarget;
     private int _commandsInFlight;
+    private bool _applying;
     private DateTimeOffset _lastUpdate;
 
     public MainViewModel(ISmartThingsClient client)
@@ -79,6 +80,72 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     [NotifyPropertyChangedFor(nameof(IsStale))]
     public partial string? StaleText { get; set; }
 
+    [ObservableProperty]
+    public partial string PowerNowText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial string EnergyTotalText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial bool HasEnergy { get; set; }
+
+    [ObservableProperty]
+    public partial double TropicalNightHours { get; set; }
+
+    [ObservableProperty]
+    public partial string TropicalNightText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial bool HasTropicalNight { get; set; }
+
+    [ObservableProperty]
+    public partial bool SoundOn { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasSound { get; set; }
+
+    [ObservableProperty]
+    public partial bool AutoCleanOn { get; set; }
+
+    [ObservableProperty]
+    public partial string AutoCleanText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial bool HasAutoClean { get; set; }
+
+    [ObservableProperty]
+    public partial double FilterUsage { get; set; }
+
+    [ObservableProperty]
+    public partial string FilterText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial string FilterStatusText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial bool FilterNeedsAttention { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasFilter { get; set; }
+
+    [ObservableProperty]
+    public partial string SelfCheckText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial bool IsSelfChecking { get; set; }
+
+    [ObservableProperty]
+    public partial bool HasSelfCheck { get; set; }
+
+    [ObservableProperty]
+    public partial string FirmwareText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial string ModuleText { get; set; } = "";
+
+    [ObservableProperty]
+    public partial string YearText { get; set; } = "";
+
     public bool HasError => Error is not null;
 
     public bool IsStale => StaleText is not null;
@@ -115,6 +182,46 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     {
         var on = !IsOn;
         return SendAsync(Commands.Power(on), s => s with { IsOn = on });
+    }
+
+    [RelayCommand]
+    private Task ResetFilterAsync() =>
+        SendAsync(Commands.ResetFilter(), s => s with { FilterUsagePercent = 0, FilterStatus = "normal" });
+
+    [RelayCommand]
+    private Task StartSelfCheckAsync() =>
+        SendAsync(Commands.SelfCheck(true), s => s with { SelfCheckStatus = "run", SelfCheckProgress = 0 });
+
+    [RelayCommand]
+    private Task CancelSelfCheckAsync() =>
+        SendAsync(Commands.SelfCheck(false), s => s with { SelfCheckStatus = "ready" });
+
+    partial void OnTropicalNightHoursChanged(double value)
+    {
+        if (_applying || double.IsNaN(value))
+        {
+            return;
+        }
+
+        var hours = (int)Math.Clamp(Math.Round(value), 0, 35);
+        Fire(SendAsync(Commands.TropicalNight(hours), s => s with { TropicalNightHours = hours }));
+    }
+
+    partial void OnSoundOnChanged(bool value)
+    {
+        if (!_applying)
+        {
+            var volume = value ? 100 : 0;
+            Fire(SendAsync(Commands.Volume(volume), s => s with { Volume = volume }));
+        }
+    }
+
+    partial void OnAutoCleanOnChanged(bool value)
+    {
+        if (!_applying)
+        {
+            Fire(SendAsync(Commands.AutoClean(value), s => s with { AutoClean = value }));
+        }
     }
 
     [RelayCommand(AllowConcurrentExecutions = true)]
@@ -231,6 +338,20 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private void Apply(AcState state)
     {
+        _applying = true;
+        try
+        {
+            ApplyControls(state);
+            ApplyReadings(state);
+        }
+        finally
+        {
+            _applying = false;
+        }
+    }
+
+    private void ApplyControls(AcState state)
+    {
         _state = state;
         IsOn = state.IsOn;
         PowerText = state.IsOn && state.Mode.Current is { } mode
@@ -246,6 +367,44 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         FanMode.Apply(state.FanMode, state.IsOn);
         WindDirection.Apply(state.WindDirection, state.IsOn);
         OptionalMode.Apply(state.OptionalMode, state.IsOn);
+    }
+
+    private void ApplyReadings(AcState state)
+    {
+        HasEnergy = state.PowerWatts is not null || state.EnergyTotalWh is not null;
+        PowerNowText = state.PowerWatts is { } watts ? Labels.Format("{0:0} W", watts) : "--";
+        EnergyTotalText = state.EnergyTotalWh is { } wh ? Labels.Format("{0:#,0.#} kWh", wh / 1000) : "--";
+
+        HasTropicalNight = state.TropicalNightHours is not null;
+        TropicalNightHours = state.TropicalNightHours ?? 0;
+        TropicalNightText = state.TropicalNightRemainingMinutes is > 0 and var minutes
+            ? Labels.Format(Strings.TropicalNight_Remaining, minutes)
+            : Strings.TropicalNight_Description;
+
+        HasSound = state.Volume is not null;
+        SoundOn = state.Volume > 0;
+
+        HasAutoClean = state.AutoClean is not null;
+        AutoCleanOn = state.AutoClean == true;
+        AutoCleanText = state.IsAutoCleaning ? Strings.AutoClean_Running : Strings.AutoClean_Description;
+
+        HasFilter = state.FilterUsagePercent is not null;
+        FilterUsage = state.FilterUsagePercent ?? 0;
+        FilterText = Labels.Format(Strings.Filter_Usage, $"{state.FilterUsagePercent:0}", state.FilterCapacityHours);
+        FilterStatusText = state.FilterStatus is { } status ? Labels.ForValue("Filter_Status_", status) : "";
+        FilterNeedsAttention = state.FilterStatus is "wash" or "replace";
+
+        HasSelfCheck = state.SelfCheckStatus is not null;
+        IsSelfChecking = state.SelfCheckStatus is not null and not "ready";
+        SelfCheckText = IsSelfChecking
+            ? Labels.Format(Strings.SelfCheck_Running, state.SelfCheckProgress ?? 0)
+            : state.SelfCheckErrors.Count > 0
+                ? Labels.Format(Strings.SelfCheck_Errors, string.Join(", ", state.SelfCheckErrors))
+                : Strings.SelfCheck_NoErrors;
+
+        FirmwareText = state.Firmware ?? "--";
+        ModuleText = state.WifiModule ?? "--";
+        YearText = state.ReleaseYear is { } year ? $"{(year < 100 ? 2000 + year : year):0}" : "--";
     }
 
     private void HandleError(SmartThingsError error)

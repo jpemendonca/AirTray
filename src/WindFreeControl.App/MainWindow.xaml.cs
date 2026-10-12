@@ -1,4 +1,5 @@
 using Microsoft.UI.Xaml;
+using Microsoft.UI.Xaml.Controls;
 using WindFreeControl.App.Views;
 using WindFreeControl.Core;
 using WindFreeControl.Core.Abstractions;
@@ -33,7 +34,23 @@ public sealed partial class MainWindow : Window
         Closed += (_, _) => _control?.Dispose();
     }
 
-    public UIElement Root => RootGrid;
+    public UIElement SnapshotTarget
+    {
+        get
+        {
+            if (Host.Content is not ControlPage page)
+            {
+                return RootGrid;
+            }
+
+            if (page.ScrollContent is Panel panel)
+            {
+                panel.Background = RootGrid.Background;
+            }
+
+            return page.ScrollContent;
+        }
+    }
 
     // Snapshot runs show the window outside every monitor and never activate it, so nothing
     // appears over what the user is doing.
@@ -48,7 +65,7 @@ public sealed partial class MainWindow : Window
         var light = RootGrid.ActualTheme == ElementTheme.Light;
         RootGrid.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(
             light ? Windows.UI.Color.FromArgb(255, 0xF3, 0xF3, 0xF3) : Windows.UI.Color.FromArgb(255, 0x20, 0x20, 0x20));
-        AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(-32000, -32000, 440, 1900));
+        AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(-32000, -32000, 440, 820));
         AppWindow.Show(false);
     }
 

@@ -19,4 +19,19 @@ public static class Commands
 
     public static DeviceCommand OptionalMode(string mode) =>
         new("custom.airConditionerOptionalMode", "setAcOptionalMode", [mode]);
+
+    public static DeviceCommand TropicalNight(int hours) =>
+        new("custom.airConditionerTropicalNightMode", "setAcTropicalNightModeLevel", [hours]);
+
+    public static DeviceCommand AutoClean(bool on) =>
+        new("custom.autoCleaningMode", "setAutoCleaningMode", [on ? "on" : "off"]);
+
+    public static DeviceCommand Volume(int percent) =>
+        new("audioVolume", "setVolume", [percent]);
+
+    public static DeviceCommand ResetFilter() =>
+        new("custom.dustFilter", "resetDustFilter", []);
+
+    public static DeviceCommand SelfCheck(bool start) =>
+        new("samsungce.selfCheck", start ? "startSelfCheck" : "cancelSelfCheck", []);
 }

@@ -23,7 +23,7 @@ public partial class App : Application
         {
             _window.ShowOffscreen(options.Theme);
             await Task.Delay(options.SnapshotDelay);
-            await Snapshot.SaveAsync(_window.Root, path);
+            await Snapshot.SaveAsync(_window.SnapshotTarget, path);
             Exit();
             return;
         }

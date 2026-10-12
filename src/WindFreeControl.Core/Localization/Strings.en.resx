@@ -159,4 +159,106 @@
   <data name="Optional_windFreeSleep" xml:space="preserve">
     <value>WindFree Sleep</value>
   </data>
+  <data name="Energy_Title" xml:space="preserve">
+    <value>Energy</value>
+  </data>
+  <data name="Energy_Now" xml:space="preserve">
+    <value>Power now</value>
+  </data>
+  <data name="Energy_Total" xml:space="preserve">
+    <value>Total energy</value>
+  </data>
+  <data name="Options_Title" xml:space="preserve">
+    <value>Comfort and options</value>
+  </data>
+  <data name="TropicalNight_Title" xml:space="preserve">
+    <value>Tropical night</value>
+  </data>
+  <data name="TropicalNight_Description" xml:space="preserve">
+    <value>Night operation hours. 0 turns it off.</value>
+  </data>
+  <data name="TropicalNight_Remaining" xml:space="preserve">
+    <value>{0} min left</value>
+  </data>
+  <data name="Sound_Title" xml:space="preserve">
+    <value>Sounds</value>
+  </data>
+  <data name="Sound_Description" xml:space="preserve">
+    <value>Beep when receiving commands.</value>
+  </data>
+  <data name="AutoClean_Title" xml:space="preserve">
+    <value>Auto clean</value>
+  </data>
+  <data name="AutoClean_Description" xml:space="preserve">
+    <value>Dries the indoor unit after turning off.</value>
+  </data>
+  <data name="AutoClean_Running" xml:space="preserve">
+    <value>Cleaning now</value>
+  </data>
+  <data name="Maintenance_Title" xml:space="preserve">
+    <value>Maintenance</value>
+  </data>
+  <data name="Filter_Title" xml:space="preserve">
+    <value>Dust filter</value>
+  </data>
+  <data name="Filter_Usage" xml:space="preserve">
+    <value>{0}% used of {1} h</value>
+  </data>
+  <data name="Filter_Status_normal" xml:space="preserve">
+    <value>In good shape</value>
+  </data>
+  <data name="Filter_Status_wash" xml:space="preserve">
+    <value>Wash the filter</value>
+  </data>
+  <data name="Filter_Status_replace" xml:space="preserve">
+    <value>Replace the filter</value>
+  </data>
+  <data name="Filter_Reset" xml:space="preserve">
+    <value>Reset counter</value>
+  </data>
+  <data name="Filter_ResetConfirmTitle" xml:space="preserve">
+    <value>Reset the filter counter?</value>
+  </data>
+  <data name="Filter_ResetConfirmText" xml:space="preserve">
+    <value>Do this after washing or replacing the filter.</value>
+  </data>
+  <data name="Dialog_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Dialog_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="SelfCheck_Title" xml:space="preserve">
+    <value>Self-check</value>
+  </data>
+  <data name="SelfCheck_Start" xml:space="preserve">
+    <value>Start</value>
+  </data>
+  <data name="SelfCheck_Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="SelfCheck_Status_ready" xml:space="preserve">
+    <value>Ready to run</value>
+  </data>
+  <data name="SelfCheck_Running" xml:space="preserve">
+    <value>Running ({0}%)</value>
+  </data>
+  <data name="SelfCheck_Errors" xml:space="preserve">
+    <value>Error codes: {0}</value>
+  </data>
+  <data name="SelfCheck_NoErrors" xml:space="preserve">
+    <value>No errors found</value>
+  </data>
+  <data name="DeviceInfo_Title" xml:space="preserve">
+    <value>About the device</value>
+  </data>
+  <data name="DeviceInfo_Firmware" xml:space="preserve">
+    <value>Firmware</value>
+  </data>
+  <data name="DeviceInfo_Module" xml:space="preserve">
+    <value>Wi-Fi module</value>
+  </data>
+  <data name="DeviceInfo_Year" xml:space="preserve">
+    <value>Model year</value>
+  </data>
 </root>
