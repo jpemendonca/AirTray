@@ -293,12 +293,16 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > not opened on screen by the agent; user opens it from the tray.
   > Validation (2026-10-12): user opened the flyout from the real tray and reported it works well. Path walked.
 
-- [ ] **6.5 Showcase README.**
+- [x] **6.5 Showcase README.**
   Origin: user, 2026-10-12: README with screenshots, eye-catching and well designed, for GitHub
   and LinkedIn. Repository renamed to AirTray the same day (the app keeps its name). Scope:
   hero image (dark and light), feature list, flyout and settings screenshots from off-screen demo
   snapshots in `docs/images/`, download and token steps, build steps, Portuguese version in
   `README.pt-BR.md`. Acceptance: images render on GitHub; every command in it works.
+  > Validation (2026-10-12): README.md (English) and README.pt-BR.md with a hero banner, flyout,
+  > control and settings images from off-screen demo snapshots (`tools/make-readme-images.py`),
+  > badges, download steps (SmartScreen note), token note, compatibility and build steps. GitHub
+  > rendering not checked yet: the repository is private until 6.7.
 
 - [ ] **6.6 Downloadable GitHub release.**
   Origin: user, 2026-10-12. Scope: versioned zip of the AOT `publish/` folder (e.g.
