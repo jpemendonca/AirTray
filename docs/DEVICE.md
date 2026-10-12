@@ -23,6 +23,13 @@ Re-run the script after a firmware change and update this file.
 | Self-check | `samsungce.selfCheck` | start, cancel | ready |
 | Refresh | `refresh` | — | — |
 
+## Economy mode
+
+The SmartThings app's economy mode is optional mode `smart` (found 2026-10-12 by diffing the
+status before and after turning it on in the SmartThings app). While it is on, the unit raises
+`coolingSetpointRange.minimum` and `custom.thermostatSetpointControl.minimumSetpoint` from 16 to
+24 and set wind direction to `fixed`. The app follows the reported range.
+
 ## Readings
 
 | Reading | Attribute | Sample |

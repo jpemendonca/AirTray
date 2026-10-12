@@ -118,13 +118,17 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): user ran the Release (non-AOT) build against the real unit and
   > reported every control working. Path walked. AOT exe still blocked by 0.4.
 
-- [ ] **1.6 Economy mode.**
+- [x] **1.6 Economy mode.**
   Origin: user, after 1.5: the SmartThings app has an economy mode that this app lacks. The
   unit's `supportedAcOptionalMode` does not list `energySaving`, and `custom.energyType` reports
   `energySavingSupport: false`, so the control is not in the documented API surface. Scope: user
   turns economy mode on in the SmartThings app, runs `tools/dump-device.ps1`; agent diffs against
   `tools/out/baseline/` to find the attribute and command, then adds the control. Acceptance:
   toggling it in this app shows as active in the SmartThings app.
+  > Validation (2026-10-12): the diff showed `acOptionalMode` `off` → `smart`, the setpoint minimum
+  > going 16 → 24 and wind set to `fixed`. The control already existed, labeled "Inteligente";
+  > relabeled `Optional_smart` to "Econômico" / "Economy". No new command needed. Code written;
+  > the user has not toggled it from this app yet.
 
 ## Phase 2 — Control screen as in SmartThings
 
