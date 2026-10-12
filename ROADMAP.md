@@ -47,6 +47,8 @@ User fixes and requests enter here as new bullets before any code.
   `publish/WindFreeControl.exe`; record exe folder size, cold start time and working set of the
   empty window in the validation note. Acceptance: published exe opens on a machine path without
   the .NET SDK on PATH; zero AOT/trim warnings.
+  > Blocked (2026-10-12): `publish.ps1` exists, but ILCompiler reports "Platform linker not found".
+  > VS 2026 Community lacks the MSVC x64 tools; the user installs them (VC.Tools.x86.x64 + Windows SDK).
 
 - [ ] **0.5 Real payload fixtures.**
   Origin: tests policy. Scope: copy `tools/out/status.json` and `device.json` to
