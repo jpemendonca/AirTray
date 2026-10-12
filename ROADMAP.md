@@ -50,10 +50,12 @@ User fixes and requests enter here as new bullets before any code.
   > Blocked (2026-10-12): `publish.ps1` exists, but ILCompiler reports "Platform linker not found".
   > VS 2026 Community lacks the MSVC x64 tools; the user installs them (VC.Tools.x86.x64 + Windows SDK).
 
-- [ ] **0.5 Real payload fixtures.**
+- [x] **0.5 Real payload fixtures.**
   Origin: tests policy. Scope: copy `tools/out/status.json` and `device.json` to
   `tests/.../Fixtures/` with ids scrubbed. Acceptance: fixtures load in a test; `git grep` finds no
   real device/location/owner id.
+  > Validation (2026-10-12): `status.json` and `devices.json` (list wrapper around the real
+  > device) scrubbed; grep for the five real ids and the OTN DUID finds nothing. Code written.
 
 ## Phase 1 — Main path, end to end
 
