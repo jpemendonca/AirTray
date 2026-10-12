@@ -316,7 +316,7 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > `gh release create` with `docs/release-notes.md`. First run passed end to end. Hardened after
   > 6.7: tag validated and passed through `env`, actions pinned by commit SHA.
 
-- [ ] **6.7 Security review before making the repository public.**
+- [x] **6.7 Security review before making the repository public.**
   Origin: user, 2026-10-12. Last item. Scope: run the review with Sonnet sub-agents: git history
   and fixtures for secrets or personal ids, token handling (Credential Locker, logs, crash log),
   HTTP client, registry writes, P/Invoke code in `TrayIcon`, demo flags, release zip contents.
@@ -336,6 +336,10 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > first-party actions beyond the SHA pin. Waiting on the user: license (MIT suggested), the personal
   > e-mail on all commits, rewriting history to drop the old device id (still in past commits), and
   > making the repository public.
+  > Validation (2026-10-12): user decisions applied: MIT LICENSE; history rewritten with
+  > git-filter-repo (old device id replaced by zeros, author e-mail replaced by the GitHub noreply
+  > address, verified: zero hits in `git log -p --all`); force-pushed; release v1.0.0 rebuilt from
+  > the clean history; expired-token message made neutral (no 24 h claim); repository made public.
 
 ## Phase 5 — Release
 
