@@ -110,11 +110,21 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > click, defeating the debounce. Added `%LocalAppData%\WindFreeControl\crash.log` for unhandled
   > exceptions.
 
-- [ ] **1.5 Main path walked on the real unit (user).**
+- [x] **1.5 Main path walked on the real unit (user).**
   Origin: definition of done. Scope: user runs the AOT published exe, pastes the token, turns the
   unit on and off, changes temperature, mode, fan, wind and WindFree, closes and reopens the app
   (no token prompt). Agent records findings; every problem found becomes a new bullet below this
   one. Acceptance: user confirms each control changed the real unit.
+  > Validation (2026-10-12): user ran the Release (non-AOT) build against the real unit and
+  > reported every control working. Path walked. AOT exe still blocked by 0.4.
+
+- [ ] **1.6 Economy mode.**
+  Origin: user, after 1.5: the SmartThings app has an economy mode that this app lacks. The
+  unit's `supportedAcOptionalMode` does not list `energySaving`, and `custom.energyType` reports
+  `energySavingSupport: false`, so the control is not in the documented API surface. Scope: user
+  turns economy mode on in the SmartThings app, runs `tools/dump-device.ps1`; agent diffs against
+  `tools/out/baseline/` to find the attribute and command, then adds the control. Acceptance:
+  toggling it in this app shows as active in the SmartThings app.
 
 ## Phase 2 — Control screen as in SmartThings
 
