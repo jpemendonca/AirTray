@@ -286,6 +286,11 @@ Ugly is fine. Walkable from first run to controlling the unit.
   a settings button. Reuses the running `MainViewModel`. Right-click menu keeps Open/Exit; "Abrir"
   opens the full window. Acceptance: off-screen snapshot of the flyout in demo; user opens it from
   the real tray.
+  > In progress (2026-10-12): `FlyoutWindow` (acrylic, no title bar, always on top, hidden from
+  > switchers, hides on deactivation, placed at the bottom-right of the work area) hosting
+  > `FlyoutPanel`. Panel checked by off-screen snapshots in dark and light; shortcuts checked via UI
+  > Automation (WindFree then Econômico leaves only Econômico on). Missing: the real flyout window was
+  > not opened on screen by the agent; user opens it from the tray.
 
 - [ ] **6.5 Downloadable GitHub release.**
   Origin: user, 2026-10-12. Scope: versioned zip of the AOT `publish/` folder (e.g.

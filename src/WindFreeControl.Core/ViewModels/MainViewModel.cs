@@ -63,6 +63,16 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public partial string AccentKey { get; set; } = "off";
 
     [ObservableProperty]
+    public partial string? CurrentMode { get; set; }
+
+    [ObservableProperty]
+    public partial string? CurrentOptionalMode { get; set; }
+
+    public IReadOnlyList<string> SupportedModes => _state?.Mode.Supported ?? [];
+
+    public IReadOnlyList<string> SupportedOptionalModes => _state?.OptionalMode.Supported ?? [];
+
+    [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(TrayText))]
     public partial string TargetText { get; set; } = "--";
 
@@ -192,6 +202,18 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     {
         var on = !IsOn;
         return SendAsync(Commands.Power(on), s => s with { IsOn = on });
+    }
+
+    [RelayCommand]
+    private Task SelectModeAsync(string mode) =>
+        SendAsync(Commands.Mode(mode), s => s with { Mode = s.Mode with { Current = mode } });
+
+    // Tapping an active special mode turns special modes off, like the SmartThings shortcuts.
+    [RelayCommand]
+    private Task ToggleOptionalModeAsync(string mode)
+    {
+        var next = CurrentOptionalMode == mode ? "off" : mode;
+        return SendAsync(Commands.OptionalMode(next), s => s with { OptionalMode = s.OptionalMode with { Current = next } });
     }
 
     [RelayCommand]
@@ -404,6 +426,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
             ? $"{Strings.Control_On} · {Labels.ForValue("Mode_", mode)}"
             : state.IsOn ? Strings.Control_On : Strings.Control_Off;
         AccentKey = state.IsOn ? state.Mode.Current ?? "auto" : "off";
+        CurrentMode = state.Mode.Current;
+        CurrentOptionalMode = state.OptionalMode.Current;
         TargetText = state.TargetTemperature is { } target ? Labels.Temperature(target) : "--";
         CanIncreaseTarget = state.IsOn && state.TargetTemperature < state.TargetRange.Maximum;
         CanDecreaseTarget = state.IsOn && state.TargetTemperature > state.TargetRange.Minimum;

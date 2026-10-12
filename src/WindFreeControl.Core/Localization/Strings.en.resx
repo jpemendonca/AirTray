@@ -327,4 +327,7 @@
   <data name="Light_Description" xml:space="preserve">
     <value>Turns the panel display on the unit on or off.</value>
   </data>
+  <data name="Flyout_Open" xml:space="preserve">
+    <value>Open WindFree Control</value>
+  </data>
 </root>

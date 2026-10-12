@@ -327,4 +327,7 @@
   <data name="Light_Description" xml:space="preserve">
     <value>Acende ou apaga os números no painel do ar.</value>
   </data>
+  <data name="Flyout_Open" xml:space="preserve">
+    <value>Abrir WindFree Control</value>
+  </data>
 </root>

@@ -43,6 +43,11 @@ public partial class App : Application
             {
                 _window.ShowSettingsForSnapshot();
             }
+            else if (options.Page == "flyout")
+            {
+                await Task.Delay(TimeSpan.FromSeconds(2));
+                _window.ShowFlyoutForSnapshot();
+            }
 
             _window.ShowOffscreen(options.Theme, options.SnapshotWidth);
             await Task.Delay(options.SnapshotDelay);

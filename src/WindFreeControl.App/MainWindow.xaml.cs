@@ -25,6 +25,7 @@ public sealed partial class MainWindow : Window
     private readonly bool _demo;
     private readonly bool _demoRejectToken;
     private TrayIcon? _tray;
+    private FlyoutWindow? _flyout;
     private MainViewModel? _control;
     private ControlPage? _controlPage;
     private bool _exiting;
@@ -101,11 +102,50 @@ public sealed partial class MainWindow : Window
 
     public void ShowSettingsForSnapshot() => ShowSettings();
 
+    public void ShowFlyoutForSnapshot()
+    {
+        if (_control is null)
+        {
+            return;
+        }
+
+        SettingsButton.Visibility = Visibility.Collapsed;
+        Host.Content = new Border
+        {
+            Width = 340,
+            Margin = new Thickness(16),
+            VerticalAlignment = VerticalAlignment.Top,
+            CornerRadius = new CornerRadius(8),
+            BorderThickness = new Thickness(1),
+            BorderBrush = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["CardStrokeColorDefaultBrush"],
+            Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["CardBackgroundFillColorDefaultBrush"],
+            Child = new FlyoutPanel(_control),
+        };
+    }
+
     public void Open(bool startHidden)
     {
         RestoreBounds();
+        _flyout = new FlyoutWindow();
+        _flyout.SetViewModel(_control);
+        _flyout.OpenRequested += (_, _) => ShowFromTray();
+        _flyout.SettingsRequested += (_, _) =>
+        {
+            ShowFromTray();
+            ShowSettings();
+        };
         _tray = new TrayIcon(Win32Interop.GetWindowFromWindowId(AppWindow.Id));
-        _tray.Activated += (_, _) => ShowFromTray();
+        _tray.Activated += (_, _) =>
+        {
+            if (_control is not null && _flyout is not null)
+            {
+                _flyout.Toggle();
+            }
+            else
+            {
+                ShowFromTray();
+            }
+        };
         _tray.MenuItems = BuildTrayMenu;
         UpdateTray();
 
@@ -155,6 +195,7 @@ public sealed partial class MainWindow : Window
         viewModel.Unauthorized += (_, message) => ShowSetup(message);
         viewModel.PropertyChanged += OnControlPropertyChanged;
         _control = viewModel;
+        _flyout?.SetViewModel(viewModel);
         _controlPage = new ControlPage(viewModel);
         Host.Content = _controlPage;
         try
@@ -248,6 +289,7 @@ public sealed partial class MainWindow : Window
     private void ExitApp()
     {
         _exiting = true;
+        _flyout?.Close();
         Close();
         Application.Current.Exit();
     }
@@ -287,6 +329,8 @@ public sealed partial class MainWindow : Window
 
         _control = null;
         _controlPage = null;
+        _flyout?.Hide();
+        _flyout?.SetViewModel(null);
         UpdateTray();
     }
 }
