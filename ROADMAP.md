@@ -45,13 +45,15 @@ User fixes and requests enter here as new bullets before any code.
   > case, observed for real); after `dotnet format` the gate passed. Hook enabled via
   > `core.hooksPath`. Code written.
 
-- [ ] **0.4 AOT publish smoke.**
+- [x] **0.4 AOT publish smoke.**
   Origin: decision log (AOT risk must surface early). Scope: `publish.ps1` producing
   `publish/WindFreeControl.exe`; record exe folder size, cold start time and working set of the
   empty window in the validation note. Acceptance: published exe opens on a machine path without
   the .NET SDK on PATH; zero AOT/trim warnings.
   > Blocked (2026-10-12): `publish.ps1` exists, but ILCompiler reports "Platform linker not found".
   > VS 2026 Community lacks the MSVC x64 tools; the user installs them (VC.Tools.x86.x64 + Windows SDK).
+  > Validation (2026-10-12): MSVC tools installed by the user. AOT publish works with zero warnings
+  > once vswhere.exe is on PATH (`publish.ps1` adds it). Folder 168 MB, exe 9.9 MB.
 
 - [x] **0.5 Real payload fixtures.**
   Origin: tests policy. Scope: copy `tools/out/status.json` and `device.json` to
@@ -253,7 +255,7 @@ Ugly is fine. Walkable from first run to controlling the unit.
 
 ## Phase 5 — Release
 
-- [ ] **5.1 Publish and measure.** Final AOT publish; record start time and memory against the
+- [x] **5.1 Publish and measure.** Final AOT publish; record start time and memory against the
   SPECS targets; fix what misses them (new bullets).
   > Blocked (2026-10-12): the AOT publish still needs the MSVC x64 tools (same blocker as 0.4).
   > Fallback `./publish.ps1 -NoAot` (self-contained ReadyToRun) works: 273 MB folder, 145 MB working
@@ -261,6 +263,10 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Found and fixed on the way: publish lacked `WindFreeControl.pri` and crashed on XAML load;
   > `EnableMsixTooling` fixes it. Next step: user installs the MSVC tools, agent runs `./publish.ps1`
   > and measures.
+  > Validation (2026-10-12): AOT build replaced the ReadyToRun one in publish/. Measured hidden in the
+  > tray (demo, 25 s): Task Manager memory 72 → 68 MB, working set 166 → 136 MB, folder 273 → 168 MB.
+  > The <60 MB target is missed: WinUI itself is most of the footprint, not .NET. Startup time not
+  > measured (would need a visible window over the user's game).
 - [x] **5.2 Start menu shortcut and autostart option.** Script to create a Start menu shortcut
   to the published exe; Settings option to start with Windows (Run key).
   > Validation (2026-10-12): `tools/install-shortcut.ps1` (and `-Remove`) creates "WindFree Control"

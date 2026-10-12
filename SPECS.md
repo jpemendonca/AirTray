@@ -225,3 +225,6 @@ from `$env:ST_TOKEN` in the user's own terminal; its output folder is git-ignore
   `--snapshot`, `--theme`, `--lang` and `--page` exist only for these checks.
 - 2026-10-12: Pre-commit hook removed at the user's request (the WinUI Release build made each
   commit take minutes). `./gate.ps1` is still required before committing; agents run it by hand.
+- 2026-10-12: AOT measured: Task Manager memory only 72 → 68 MB versus JIT, because WinUI dominates
+  the footprint. Kept for the smaller folder (168 MB) and working set (136 MB). The <60 MB target in
+  "Build and publish" is not reachable with WinUI 3 alone.

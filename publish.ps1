@@ -6,6 +6,9 @@ param(
 $ErrorActionPreference = "Stop"
 Set-Location $PSScriptRoot
 
+# The ILCompiler calls vswhere.exe without a path to find the MSVC linker.
+$env:PATH += ";${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer"
+
 $out = Join-Path $PSScriptRoot "publish"
 if (Test-Path $out) { Remove-Item -Recurse -Force $out }
 
