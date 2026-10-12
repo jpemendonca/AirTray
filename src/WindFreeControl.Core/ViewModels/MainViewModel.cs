@@ -57,6 +57,12 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public partial string TargetText { get; set; } = "--";
 
     [ObservableProperty]
+    public partial bool CanIncreaseTarget { get; set; }
+
+    [ObservableProperty]
+    public partial bool CanDecreaseTarget { get; set; }
+
+    [ObservableProperty]
     public partial string RoomText { get; set; } = "";
 
     [ObservableProperty]
@@ -123,6 +129,11 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
         var range = _state.TargetRange;
         var target = range.Clamp((_pendingTarget ?? _state.TargetTemperature ?? range.Minimum) + (direction * range.Step));
+        if (target == (_pendingTarget ?? _state.TargetTemperature))
+        {
+            return;
+        }
+
         _pendingTarget = target;
         Apply(_state with { TargetTemperature = target });
 
@@ -221,6 +232,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         IsOn = state.IsOn;
         PowerText = state.IsOn ? Strings.Control_On : Strings.Control_Off;
         TargetText = state.TargetTemperature is { } target ? Labels.Temperature(target) : "--";
+        CanIncreaseTarget = state.IsOn && state.TargetTemperature < state.TargetRange.Maximum;
+        CanDecreaseTarget = state.IsOn && state.TargetTemperature > state.TargetRange.Minimum;
         RoomText = state.RoomTemperature is { } room ? Labels.Format(Strings.Control_Room, Labels.Temperature(room)) : "";
         HumidityText = state.Humidity is { } humidity ? Labels.Format(Strings.Control_Humidity, humidity) : "";
         Mode.Apply(state.Mode, state.IsOn);

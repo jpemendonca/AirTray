@@ -49,8 +49,25 @@ public sealed class DemoSmartThingsClient : ISmartThingsClient
 
             var value = command.Arguments.Count > 0 ? command.Arguments[0].ToJsonNode() : JsonValue.Create(command.Command);
             _status["components"]!["main"]![command.Capability]![attribute]!["value"] = value;
+            if (command.Command == "setAcOptionalMode")
+            {
+                ApplyEconomyFloor(command.Arguments[0].ToString() == "smart");
+            }
         }
 
         return Task.FromResult(SmartThingsResult<bool>.Success(true));
+    }
+
+    // The real unit raises the minimum setpoint to 24 °C while economy (smart) mode is on.
+    private void ApplyEconomyFloor(bool economy)
+    {
+        var main = _status["components"]!["main"]!;
+        var minimum = economy ? 24 : 16;
+        main["thermostatCoolingSetpoint"]!["coolingSetpointRange"]!["value"]!["minimum"] = minimum;
+        var setpoint = main["thermostatCoolingSetpoint"]!["coolingSetpoint"]!["value"]!.GetValue<double>();
+        if (setpoint < minimum)
+        {
+            main["thermostatCoolingSetpoint"]!["coolingSetpoint"]!["value"] = minimum;
+        }
     }
 }

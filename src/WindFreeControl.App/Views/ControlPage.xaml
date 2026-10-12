@@ -46,7 +46,7 @@
                     <Button
                         AutomationProperties.Name="{x:Bind loc:Strings.Control_Decrease}"
                         Command="{x:Bind ViewModel.DecreaseTargetCommand}"
-                        IsEnabled="{x:Bind ViewModel.IsOn, Mode=OneWay}">
+                        IsEnabled="{x:Bind ViewModel.CanDecreaseTarget, Mode=OneWay}">
                         <FontIcon Glyph="&#xE738;" />
                     </Button>
                     <TextBlock
@@ -56,7 +56,7 @@
                     <Button
                         AutomationProperties.Name="{x:Bind loc:Strings.Control_Increase}"
                         Command="{x:Bind ViewModel.IncreaseTargetCommand}"
-                        IsEnabled="{x:Bind ViewModel.IsOn, Mode=OneWay}">
+                        IsEnabled="{x:Bind ViewModel.CanIncreaseTarget, Mode=OneWay}">
                         <FontIcon Glyph="&#xE710;" />
                     </Button>
                 </StackPanel>

@@ -130,6 +130,16 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > relabeled `Optional_smart` to "Econômico" / "Economy". No new command needed. Code written;
   > the user has not toggled it from this app yet.
 
+- [x] **1.7 Respect the setpoint limits (economy mode floor).**
+  Origin: user, 2026-10-12: in economy mode the unit does not go below 24 °C; Alexa reports an
+  error when asked to go lower. Scope: "−" is disabled when the target is at the reported
+  minimum, "+" when at the maximum (the range comes from `coolingSetpointRange`, so economy mode's
+  24 °C floor applies automatically); if the device still rejects a setpoint, the API message is
+  shown in the warning bar. Acceptance: in demo mode with economy on, "−" is disabled at 24 °C.
+  > Validation (2026-10-12): demo client mimics the 24 °C floor; selecting Econômico then "−" once
+  > went 25 → 24 and UI Automation reported "Diminuir temperatura" disabled. Code written; not
+  > walked on the real unit (user asked the agent not to operate the AC).
+
 ## Phase 2 — Control screen as in SmartThings
 
 - [ ] **2.1 Hero card.**
