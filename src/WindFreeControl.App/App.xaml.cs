@@ -35,7 +35,7 @@ public partial class App : Application
         var loaded = settings.Load();
         LanguageSettings.Apply(options.Language ?? loaded.Language);
 
-        _window = new MainWindow(_http, new CredentialLockerTokenStore(), settings, system, options.Demo);
+        _window = new MainWindow(_http, new CredentialLockerTokenStore(), settings, system, options.Demo, options.DemoRejectToken);
         _window.ShowStart();
         if (options.Demo && options.SnapshotPath is { } path)
         {

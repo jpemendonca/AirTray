@@ -27,9 +27,11 @@ public sealed class DemoSmartThingsClient : ISmartThingsClient
     };
 
     private readonly JsonNode _status;
+    private readonly bool _rejectToken;
 
-    public DemoSmartThingsClient()
+    public DemoSmartThingsClient(bool rejectToken = false)
     {
+        _rejectToken = rejectToken;
         using var stream = typeof(DemoSmartThingsClient).Assembly.GetManifestResourceStream("WindFreeControl.Core.Demo.status.json")
             ?? throw new InvalidOperationException("Demo status resource is missing.");
         _status = JsonNode.Parse(stream)!;
@@ -37,6 +39,12 @@ public sealed class DemoSmartThingsClient : ISmartThingsClient
 
     public Task<SmartThingsResult<IReadOnlyList<DeviceDto>>> GetDevicesAsync(CancellationToken cancellationToken)
     {
+        if (_rejectToken)
+        {
+            return Task.FromResult(SmartThingsResult<IReadOnlyList<DeviceDto>>.Failure(
+                new SmartThingsError(SmartThingsErrorKind.Unauthorized, null)));
+        }
+
         IReadOnlyList<DeviceDto> devices =
             [new DeviceDto(DeviceId, "Samsung-Room-Air-Conditioner", "Ar-condicionado", new OcfDto(DeviceDto.AirConditionerOcfType), [])];
         return Task.FromResult(SmartThingsResult<IReadOnlyList<DeviceDto>>.Success(devices));

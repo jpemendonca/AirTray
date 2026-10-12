@@ -18,6 +18,8 @@ dotnet run --project src/WindFreeControl.App
 ```
 
 On first run, paste the token. It is stored in Windows Credential Locker.
+If the app says the token was rejected, it most likely expired: tokens created after 2024-12-30
+last 24 hours. Generate a new one and paste it again.
 Settings (gear in the title bar): language, change/forget token, close to tray, start minimized,
 start with Windows. Settings file: `%LocalAppData%\WindFreeControl\settings.json`.
 Unhandled errors go to `%LocalAppData%\WindFreeControl\crash.log`.
@@ -42,6 +44,7 @@ Unhandled errors go to `%LocalAppData%\WindFreeControl\crash.log`.
 ```powershell
 WindFreeControl.exe --demo                       # real status fixture, commands applied in memory
 WindFreeControl.exe --demo --startup             # starts hidden in the tray
+WindFreeControl.exe --demo --demo-reject-token   # simulates an expired token
 WindFreeControl.exe --demo --snapshot out.png    # off-screen render of the page, then exits
     [--snapshot-delay 5] [--theme light|dark] [--lang en|pt-BR] [--page settings]
 ```

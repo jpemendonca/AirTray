@@ -8,7 +8,8 @@ public sealed record LaunchOptions(
     string? Theme,
     string? Language,
     string? Page,
-    int SnapshotWidth)
+    int SnapshotWidth,
+    bool DemoRejectToken)
 {
     public static LaunchOptions Parse(IReadOnlyList<string> args)
     {
@@ -27,6 +28,7 @@ public sealed record LaunchOptions(
             ValueAfter("--theme"),
             ValueAfter("--lang"),
             ValueAfter("--page"),
-            int.TryParse(ValueAfter("--snapshot-width"), out var width) ? width : 440);
+            int.TryParse(ValueAfter("--snapshot-width"), out var width) ? width : 440,
+            args.Contains("--demo-reject-token"));
     }
 }

@@ -23,13 +23,15 @@ public sealed partial class MainWindow : Window
     private readonly ISettingsStore _settings;
     private readonly ISystemIntegration _system;
     private readonly bool _demo;
+    private readonly bool _demoRejectToken;
     private TrayIcon? _tray;
     private MainViewModel? _control;
     private ControlPage? _controlPage;
     private bool _exiting;
 
-    public MainWindow(HttpClient http, ITokenStore tokens, ISettingsStore settings, ISystemIntegration system, bool demo)
+    public MainWindow(HttpClient http, ITokenStore tokens, ISettingsStore settings, ISystemIntegration system, bool demo, bool demoRejectToken)
     {
+        _demoRejectToken = demoRejectToken;
         _http = http;
         _tokens = tokens;
         _settings = settings;
@@ -134,7 +136,7 @@ public sealed partial class MainWindow : Window
     }
 
     private ISmartThingsClient CreateClient(string token) =>
-        _demo ? new DemoSmartThingsClient() : new SmartThingsClient(_http, token);
+        _demo ? new DemoSmartThingsClient(_demoRejectToken) : new SmartThingsClient(_http, token);
 
     private void ShowSetup(string? message)
     {

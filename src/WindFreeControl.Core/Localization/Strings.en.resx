@@ -37,7 +37,7 @@
     <value>No air conditioner found on this account.</value>
   </data>
   <data name="Error_Unauthorized" xml:space="preserve">
-    <value>SmartThings rejected the token. Paste a valid token.</value>
+    <value>SmartThings rejected the token. It may have expired: tokens created after 2024-12-30 last only 24 hours. Generate a new one and paste it here.</value>
   </data>
   <data name="Error_Forbidden" xml:space="preserve">
     <value>The token lacks permission to control devices (r:devices:*, x:devices:*).</value>
