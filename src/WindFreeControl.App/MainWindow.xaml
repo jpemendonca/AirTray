@@ -11,15 +11,34 @@
             <RowDefinition Height="48" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
         <Grid x:Name="TitleBarArea" Padding="16,0,0,0">
-            <TextBlock
-                x:Name="TitleText"
-                VerticalAlignment="Center"
-                Style="{StaticResource CaptionTextBlockStyle}" />
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Spacing="10">
+                <Image Width="16" Height="16" Source="ms-appx:///Assets/app-16.png" />
+                <TextBlock x:Name="TitleText" VerticalAlignment="Center" Style="{StaticResource CaptionTextBlockStyle}" />
+            </StackPanel>
         </Grid>
+        <Button
+            x:Name="SettingsButton"
+            Grid.Column="1"
+            Width="40"
+            Height="32"
+            Margin="0,0,140,0"
+            Padding="0"
+            VerticalAlignment="Center"
+            Background="Transparent"
+            BorderThickness="0"
+            Click="OnSettingsClick"
+            Visibility="Collapsed">
+            <FontIcon FontSize="14" Glyph="&#xE713;" />
+        </Button>
         <ContentControl
             x:Name="Host"
             Grid.Row="1"
+            Grid.ColumnSpan="2"
             HorizontalContentAlignment="Stretch"
             VerticalContentAlignment="Stretch" />
     </Grid>

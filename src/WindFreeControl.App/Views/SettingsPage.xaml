@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Page
+    x:Class="WindFreeControl.App.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:loc="using:WindFreeControl.Core.Localization"
+    Background="Transparent">
+    <ScrollViewer>
+        <StackPanel x:Name="ContentPanel" Padding="16,4,16,16" Spacing="12">
+            <StackPanel Orientation="Horizontal" Spacing="8">
+                <Button
+                    AutomationProperties.Name="{x:Bind loc:Strings.Settings_Back}"
+                    Command="{x:Bind ViewModel.CloseCommand}"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    ToolTipService.ToolTip="{x:Bind loc:Strings.Settings_Back}" />
+                <TextBlock VerticalAlignment="Center" Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_Title}" />
+            </StackPanel>
+            <Border Style="{StaticResource CardStyle}">
+                <Grid ColumnSpacing="12">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <FontIcon VerticalAlignment="Center" Glyph="&#xF2B7;" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                        <TextBlock Text="{x:Bind loc:Strings.Settings_Language}" />
+                        <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_LanguageDescription}" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <ComboBox
+                        x:Name="LanguageBox"
+                        Grid.Column="2"
+                        VerticalAlignment="Center"
+                        AutomationProperties.Name="{x:Bind loc:Strings.Settings_Language}"
+                        SelectedIndex="{x:Bind ViewModel.LanguageIndex, Mode=TwoWay}" />
+                </Grid>
+            </Border>
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="12">
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <FontIcon VerticalAlignment="Center" Glyph="&#xE8D7;" />
+                        <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind loc:Strings.Settings_Account}" />
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_TokenDescription}" TextWrapping="Wrap" />
+                        </StackPanel>
+                    </Grid>
+                    <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" Spacing="8">
+                        <Button Command="{x:Bind ViewModel.ChangeTokenCommand}" Content="{x:Bind loc:Strings.Settings_ChangeToken}" />
+                        <Button Command="{x:Bind ViewModel.ForgetTokenCommand}" Content="{x:Bind loc:Strings.Settings_ForgetToken}" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel Spacing="16">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontSize="16" Glyph="&#xE737;" />
+                        <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_Window}" />
+                    </StackPanel>
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind loc:Strings.Settings_CloseToTray}" />
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_CloseToTrayDescription}" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" MinWidth="0" AutomationProperties.Name="{x:Bind loc:Strings.Settings_CloseToTray}" IsOn="{x:Bind ViewModel.CloseToTray, Mode=TwoWay}" OffContent="" OnContent="" />
+                    </Grid>
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind loc:Strings.Settings_StartMinimized}" />
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_StartMinimizedDescription}" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" MinWidth="0" AutomationProperties.Name="{x:Bind loc:Strings.Settings_StartMinimized}" IsOn="{x:Bind ViewModel.StartMinimized, Mode=TwoWay}" OffContent="" OnContent="" />
+                    </Grid>
+                    <Grid ColumnSpacing="12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <StackPanel VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind loc:Strings.Settings_StartWithWindows}" />
+                            <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Settings_StartWithWindowsDescription}" TextWrapping="Wrap" />
+                        </StackPanel>
+                        <ToggleSwitch Grid.Column="1" MinWidth="0" AutomationProperties.Name="{x:Bind loc:Strings.Settings_StartWithWindows}" IsOn="{x:Bind ViewModel.StartWithWindows, Mode=TwoWay}" OffContent="" OnContent="" />
+                    </Grid>
+                </StackPanel>
+            </Border>
+            <TextBlock
+                HorizontalAlignment="Center"
+                Foreground="{ThemeResource TextFillColorTertiaryBrush}"
+                Style="{StaticResource CaptionTextBlockStyle}"
+                Text="{x:Bind VersionText}" />
+        </StackPanel>
+    </ScrollViewer>
+</Page>

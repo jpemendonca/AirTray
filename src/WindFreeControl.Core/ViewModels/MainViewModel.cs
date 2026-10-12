@@ -10,11 +10,13 @@ namespace WindFreeControl.Core.ViewModels;
 public sealed partial class MainViewModel : ObservableObject, IDisposable
 {
     private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(15);
+    private static readonly TimeSpan HiddenRefreshInterval = TimeSpan.FromSeconds(60);
     private static readonly TimeSpan ConfirmDelay = TimeSpan.FromSeconds(2);
     private static readonly TimeSpan TargetDebounce = TimeSpan.FromMilliseconds(600);
 
     private readonly ISmartThingsClient _client;
     private readonly CancellationTokenSource _lifetime = new();
+    private readonly PeriodicTimer _refreshTimer = new(RefreshInterval);
     private CancellationTokenSource? _targetDebounce;
     private string? _deviceId;
     private AcState? _state;
@@ -43,6 +45,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public OptionGroup OptionalMode { get; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TrayText))]
     public partial string DeviceName { get; set; } = "";
 
     [ObservableProperty]
@@ -52,12 +55,14 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public partial bool IsOn { get; set; }
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TrayText))]
     public partial string PowerText { get; set; } = "";
 
     [ObservableProperty]
     public partial string AccentKey { get; set; } = "off";
 
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(TrayText))]
     public partial string TargetText { get; set; } = "--";
 
     [ObservableProperty]
@@ -172,10 +177,17 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         Fire(RunRefreshLoopAsync());
     }
 
+    public string TrayText =>
+        string.IsNullOrEmpty(DeviceName) ? "" : Labels.Format(Strings.Tray_Tooltip, DeviceName, $"{PowerText} · {TargetText}");
+
     public void Dispose()
     {
         _lifetime.Cancel();
+        _refreshTimer.Dispose();
     }
+
+    public void SetWindowHidden(bool hidden) =>
+        _refreshTimer.Period = hidden ? HiddenRefreshInterval : RefreshInterval;
 
     [RelayCommand]
     private Task TogglePowerAsync()
@@ -329,8 +341,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private async Task RunRefreshLoopAsync()
     {
-        using var timer = new PeriodicTimer(RefreshInterval);
-        while (await timer.WaitForNextTickAsync(_lifetime.Token))
+        while (await _refreshTimer.WaitForNextTickAsync(_lifetime.Token))
         {
             await RefreshAsync();
         }

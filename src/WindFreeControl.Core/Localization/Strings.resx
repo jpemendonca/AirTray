@@ -261,4 +261,73 @@
   <data name="DeviceInfo_Year" xml:space="preserve">
     <value>Ano do modelo</value>
   </data>
+  <data name="Settings_Title" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Settings_Open" xml:space="preserve">
+    <value>Abrir configurações</value>
+  </data>
+  <data name="Settings_Back" xml:space="preserve">
+    <value>Voltar</value>
+  </data>
+  <data name="Settings_Language" xml:space="preserve">
+    <value>Idioma</value>
+  </data>
+  <data name="Settings_LanguageDescription" xml:space="preserve">
+    <value>Muda os textos do app na hora.</value>
+  </data>
+  <data name="Settings_LanguageSystem" xml:space="preserve">
+    <value>Igual ao Windows</value>
+  </data>
+  <data name="Settings_Account" xml:space="preserve">
+    <value>Conta SmartThings</value>
+  </data>
+  <data name="Settings_ChangeToken" xml:space="preserve">
+    <value>Trocar token</value>
+  </data>
+  <data name="Settings_ForgetToken" xml:space="preserve">
+    <value>Esquecer token</value>
+  </data>
+  <data name="Settings_TokenDescription" xml:space="preserve">
+    <value>O token fica no cofre de credenciais do Windows.</value>
+  </data>
+  <data name="Settings_Window" xml:space="preserve">
+    <value>Janela</value>
+  </data>
+  <data name="Settings_CloseToTray" xml:space="preserve">
+    <value>Fechar para a bandeja</value>
+  </data>
+  <data name="Settings_CloseToTrayDescription" xml:space="preserve">
+    <value>O X esconde a janela e o app continua no ícone perto do relógio.</value>
+  </data>
+  <data name="Settings_StartMinimized" xml:space="preserve">
+    <value>Abrir minimizado</value>
+  </data>
+  <data name="Settings_StartMinimizedDescription" xml:space="preserve">
+    <value>Abre só o ícone na bandeja.</value>
+  </data>
+  <data name="Settings_StartWithWindows" xml:space="preserve">
+    <value>Iniciar com o Windows</value>
+  </data>
+  <data name="Settings_StartWithWindowsDescription" xml:space="preserve">
+    <value>Abre o app quando você entra no Windows.</value>
+  </data>
+  <data name="Settings_About" xml:space="preserve">
+    <value>Sobre</value>
+  </data>
+  <data name="Tray_TurnOn" xml:space="preserve">
+    <value>Ligar</value>
+  </data>
+  <data name="Tray_TurnOff" xml:space="preserve">
+    <value>Desligar</value>
+  </data>
+  <data name="Tray_Open" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="Tray_Exit" xml:space="preserve">
+    <value>Sair</value>
+  </data>
+  <data name="Tray_Tooltip" xml:space="preserve">
+    <value>{0}: {1}</value>
+  </data>
 </root>

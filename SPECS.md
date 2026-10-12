@@ -44,7 +44,7 @@ WindFreeControl.App (net10.0-windows10.0.19041.0, WinUI 3, unpackaged, PublishAo
   ├─ Views/SettingsPage ── binds ──> SettingsViewModel
   ├─ Services/CredentialLockerTokenStore : ITokenStore
   ├─ Services/JsonSettingsStore : ISettingsStore
-  └─ Tray icon (H.NotifyIcon.WinUI)
+  └─ Services/TrayIcon (Win32 Shell_NotifyIconW, no package)
           │
           ▼
 WindFreeControl.Core (net10.0, IsAotCompatible)
@@ -217,3 +217,9 @@ from `$env:ST_TOKEN` in the user's own terminal; its output folder is git-ignore
   use XML doc comments. This is policy, not a suppression to pass the gate.
 - 2026-10-12: Test policy reduced from "happy-path on Core + view models" to essential tests only,
   at the user's request (speed over coverage on a personal tool).
+- 2026-10-12: Tray icon implemented directly on `Shell_NotifyIconW` with `LibraryImport` and a
+  window subclass, instead of H.NotifyIcon.WinUI. Reason: no new dependency, small, and AOT safe
+  by construction.
+- 2026-10-12: Demo mode (`--demo`) uses an in-memory settings store and a no-op system
+  integration, so agent checks never touch the user's settings or the Run registry key.
+  `--snapshot`, `--theme`, `--lang` and `--page` exist only for these checks.

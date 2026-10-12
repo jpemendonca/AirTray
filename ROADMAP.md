@@ -211,14 +211,27 @@ Ugly is fine. Walkable from first run to controlling the unit.
 
 ## Phase 4 — Desktop integration and settings
 
-- [ ] **4.1 Settings page.** Language (System / Português / English) applied without restart;
+- [x] **4.1 Settings page.** Language (System / Português / English) applied without restart;
   change token; forget token (returns to setup); close-to-tray; start minimized.
   Adds `ISettingsStore` + `JsonSettingsStore`.
-- [ ] **4.2 Tray icon.** Adds H.NotifyIcon.WinUI. Icon reflects on/off; tooltip with room and
+  > Validation (2026-10-12): settings page (language System/Português/English applied on the spot,
+  > change/forget token, close to tray, start minimized, start with Windows). `JsonSettingsStore` in
+  > %LocalAppData%; demo uses an in-memory store and never writes the Run key. Settings page and the
+  > English control page checked by off-screen snapshots. Live switch not walked by the user.
+- [x] **4.2 Tray icon.** ~~Adds H.NotifyIcon.WinUI.~~ (revised, see note) Icon reflects on/off; tooltip with room and
   target temperature; left click shows window; menu: Turn on/off, Open, Exit. 60 s refresh while
   hidden.
-- [ ] **4.3 Remember window position and size.**
-- [ ] **4.4 App icon and title bar polish.** Own `.ico`, used by window, taskbar and tray.
+  > Validation (2026-10-12): written on Win32 `Shell_NotifyIconW` + window subclass instead of
+  > H.NotifyIcon.WinUI (see SPECS decision log). On/off icons, tooltip, left click opens, right-click
+  > menu Turn on/off / Open / Exit; refresh slows to 60 s while hidden. `--demo --startup` ran hidden
+  > and Windows registered the icon with tooltip "Ar-condicionado: Ligado · Resfriar · 25°". Menu
+  > not clicked (would steal focus from the user's game).
+- [x] **4.3 Remember window position and size.**
+  > Validation (2026-10-12): bounds saved on close/hide when restored, restored only if the rect is
+  > on a connected display. Code written; not walked.
+- [x] **4.4 App icon and title bar polish.** Own `.ico`, used by window, taskbar and tray.
+  > Validation (2026-10-12): `tools/make-icons.py` draws app.ico (blue, three waves), tray-on/off and
+  > a 16 px title-bar PNG; exe icon via `ApplicationIcon`, window via `AppWindow.SetIcon`.
 
 ## Phase 5 — Release
 
