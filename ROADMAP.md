@@ -237,6 +237,17 @@ Ugly is fine. Walkable from first run to controlling the unit.
 
 - [ ] **5.1 Publish and measure.** Final AOT publish; record start time and memory against the
   SPECS targets; fix what misses them (new bullets).
-- [ ] **5.2 Start menu shortcut and autostart option.** Script to create a Start menu shortcut
+  > Blocked (2026-10-12): the AOT publish still needs the MSVC x64 tools (same blocker as 0.4).
+  > Fallback `./publish.ps1 -NoAot` (self-contained ReadyToRun) works: 273 MB folder, 145 MB working
+  > set / 106 MB private hidden in the tray (demo). Targets (<60 MB, <1 s) are not met without AOT.
+  > Found and fixed on the way: publish lacked `WindFreeControl.pri` and crashed on XAML load;
+  > `EnableMsixTooling` fixes it. Next step: user installs the MSVC tools, agent runs `./publish.ps1`
+  > and measures.
+- [x] **5.2 Start menu shortcut and autostart option.** Script to create a Start menu shortcut
   to the published exe; Settings option to start with Windows (Run key).
-- [ ] **5.3 README final pass.** Run, test, publish, how to get a token.
+  > Validation (2026-10-12): `tools/install-shortcut.ps1` (and `-Remove`) creates "WindFree Control"
+  > in the Start menu pointing to publish/; shortcut created on this machine. "Start with Windows"
+  > lives in Settings (4.1), writing HKCU Run with `--startup` (starts hidden in the tray).
+- [x] **5.3 README final pass.** Run, test, publish, how to get a token.
+  > Validation (2026-10-12): README covers run, settings, publish with and without AOT, shortcut,
+  > gate, demo flags, device dump and icons.
