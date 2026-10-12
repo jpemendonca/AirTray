@@ -277,7 +277,7 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): Error_Unauthorized explains the 24 h expiry in pt-BR and en; README notes
   > it; `--demo --demo-reject-token` snapshot shows the message above the token link.
 
-- [ ] **6.4 Tray flyout.**
+- [x] **6.4 Tray flyout.**
   Origin: user, 2026-10-12, modeled on a monitor-brightness tray app. Scope: left click on the tray
   icon opens a compact borderless flyout above the clock (acrylic backdrop, rounded corners, hidden
   from taskbar and Alt+Tab, closes when it loses focus). Content: device name, indoor temperature
@@ -291,6 +291,7 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > `FlyoutPanel`. Panel checked by off-screen snapshots in dark and light; shortcuts checked via UI
   > Automation (WindFree then Econômico leaves only Econômico on). Missing: the real flyout window was
   > not opened on screen by the agent; user opens it from the tray.
+  > Validation (2026-10-12): user opened the flyout from the real tray and reported it works well. Path walked.
 
 - [ ] **6.5 Downloadable GitHub release.**
   Origin: user, 2026-10-12. Scope: versioned zip of the AOT `publish/` folder (e.g.
