@@ -21,7 +21,7 @@ public partial class App : Application
         _window.ShowStart();
         if (options.Demo && options.SnapshotPath is { } path)
         {
-            _window.ShowOffscreen();
+            _window.ShowOffscreen(options.Theme);
             await Task.Delay(options.SnapshotDelay);
             await Snapshot.SaveAsync(_window.Root, path);
             Exit();

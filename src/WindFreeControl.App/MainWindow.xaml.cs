@@ -25,6 +25,11 @@ public sealed partial class MainWindow : Window
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBarArea);
         AppWindow.Resize(new Windows.Graphics.SizeInt32(440, 820));
+        if (AppWindow.Presenter is Microsoft.UI.Windowing.OverlappedPresenter presenter)
+        {
+            presenter.PreferredMinimumWidth = 400;
+            presenter.PreferredMinimumHeight = 480;
+        }
         Closed += (_, _) => _control?.Dispose();
     }
 
@@ -32,9 +37,17 @@ public sealed partial class MainWindow : Window
 
     // Snapshot runs show the window outside every monitor and never activate it, so nothing
     // appears over what the user is doing.
-    public void ShowOffscreen()
+    public void ShowOffscreen(string? theme)
     {
-        RootGrid.Background = (Microsoft.UI.Xaml.Media.Brush)Application.Current.Resources["SolidBackgroundFillColorBaseBrush"];
+        RootGrid.RequestedTheme = theme switch
+        {
+            "light" => ElementTheme.Light,
+            "dark" => ElementTheme.Dark,
+            _ => ElementTheme.Default,
+        };
+        var light = RootGrid.ActualTheme == ElementTheme.Light;
+        RootGrid.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(
+            light ? Windows.UI.Color.FromArgb(255, 0xF3, 0xF3, 0xF3) : Windows.UI.Color.FromArgb(255, 0x20, 0x20, 0x20));
         AppWindow.MoveAndResize(new Windows.Graphics.RectInt32(-32000, -32000, 440, 1900));
         AppWindow.Show(false);
     }

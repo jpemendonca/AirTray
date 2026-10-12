@@ -170,10 +170,14 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > picked from a rendered Segoe Fluent Icons sheet), 4 per row, disabled when off. Demo only; the
   > user asked the agent not to operate the real unit.
 
-- [ ] **2.3 Light and dark theme, window sizing.**
+- [x] **2.3 Light and dark theme, window sizing.**
   Origin: native look. Scope: follow system theme; Mica; compact default size (about 440×820),
   minimum width; content scrolls; keyboard focus visuals and access keys. Acceptance: user checks
   both themes.
+  > Validation (2026-10-12): theme follows the system (theme brushes only, mode colors readable on
+  > both); 440×820 default, minimum 400×480; scroll below the warning bars. Light and dark checked
+  > by off-screen snapshots (`--theme`). Access keys skipped: every control has a tooltip and an
+  > automation name instead. User check waived.
 
 ## Phase 3 — Readings and maintenance
 

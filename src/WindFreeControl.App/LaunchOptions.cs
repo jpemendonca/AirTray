@@ -1,6 +1,6 @@
 namespace WindFreeControl.App;
 
-public sealed record LaunchOptions(bool Demo, string? SnapshotPath, TimeSpan SnapshotDelay)
+public sealed record LaunchOptions(bool Demo, string? SnapshotPath, TimeSpan SnapshotDelay, string? Theme)
 {
     public static LaunchOptions Parse(IReadOnlyList<string> args)
     {
@@ -11,6 +11,6 @@ public sealed record LaunchOptions(bool Demo, string? SnapshotPath, TimeSpan Sna
         }
 
         var delay = int.TryParse(ValueAfter("--snapshot-delay"), out var seconds) ? seconds : 5;
-        return new LaunchOptions(args.Contains("--demo"), ValueAfter("--snapshot"), TimeSpan.FromSeconds(delay));
+        return new LaunchOptions(args.Contains("--demo"), ValueAfter("--snapshot"), TimeSpan.FromSeconds(delay), ValueAfter("--theme"));
     }
 }
