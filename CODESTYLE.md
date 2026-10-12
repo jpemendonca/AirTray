@@ -49,6 +49,9 @@ JsonSerializer.Deserialize(json, SmartThingsJsonContext.Default.DeviceList);
 ```
 
 - No `Activator.CreateInstance`, `Type.GetType(string)`, `Assembly.Load`, `dynamic`.
+- Never bind `ItemsSource` to a collection of Core types. Core has no WinRT interop code, so
+  WinUI crashes at runtime (COMException 0x80040111). Build item visuals in code-behind, as
+  `OptionGroupView` does.
 - Observable properties with CommunityToolkit.Mvvm partial properties
   (`[ObservableProperty] public partial bool IsOn { get; set; }`), not field-based `[ObservableProperty]`.
 

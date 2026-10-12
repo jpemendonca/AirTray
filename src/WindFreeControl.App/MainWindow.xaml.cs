@@ -11,15 +11,17 @@ public sealed partial class MainWindow : Window
 {
     private readonly HttpClient _http;
     private readonly ITokenStore _tokens;
+    private readonly bool _demo;
     private MainViewModel? _control;
 
-    public MainWindow(HttpClient http, ITokenStore tokens)
+    public MainWindow(HttpClient http, ITokenStore tokens, bool demo)
     {
         _http = http;
         _tokens = tokens;
+        _demo = demo;
         InitializeComponent();
-        Title = AppInfo.Name;
-        TitleText.Text = AppInfo.Name;
+        Title = demo ? $"{AppInfo.Name} (demo)" : AppInfo.Name;
+        TitleText.Text = Title;
         ExtendsContentIntoTitleBar = true;
         SetTitleBar(TitleBarArea);
         AppWindow.Resize(new Windows.Graphics.SizeInt32(440, 820));
@@ -28,7 +30,11 @@ public sealed partial class MainWindow : Window
 
     public void ShowStart()
     {
-        if (_tokens.Load() is { } token)
+        if (_demo)
+        {
+            ShowControl("demo");
+        }
+        else if (_tokens.Load() is { } token)
         {
             ShowControl(token);
         }
@@ -38,7 +44,8 @@ public sealed partial class MainWindow : Window
         }
     }
 
-    private ISmartThingsClient CreateClient(string token) => new SmartThingsClient(_http, token);
+    private ISmartThingsClient CreateClient(string token) =>
+        _demo ? new DemoSmartThingsClient() : new SmartThingsClient(_http, token);
 
     private void ShowSetup(string? message)
     {

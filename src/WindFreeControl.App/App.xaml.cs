@@ -11,11 +11,13 @@ public partial class App : Application
     public App()
     {
         InitializeComponent();
+        UnhandledException += (_, e) => CrashLog.Write(e.Exception);
     }
 
     protected override void OnLaunched(LaunchActivatedEventArgs args)
     {
-        _window = new MainWindow(_http, new CredentialLockerTokenStore());
+        var demo = Environment.GetCommandLineArgs().Contains("--demo");
+        _window = new MainWindow(_http, new CredentialLockerTokenStore(), demo);
         _window.ShowStart();
         _window.Activate();
     }

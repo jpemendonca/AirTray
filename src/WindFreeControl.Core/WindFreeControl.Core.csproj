@@ -8,6 +8,9 @@
     <PackageReference Include="CommunityToolkit.Mvvm" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Demo\status.json" LogicalName="WindFreeControl.Core.Demo.status.json" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Update="Localization\Strings.resx">
       <StronglyTypedLanguage>CSharp</StronglyTypedLanguage>
       <StronglyTypedNamespace>WindFreeControl.Core.Localization</StronglyTypedNamespace>

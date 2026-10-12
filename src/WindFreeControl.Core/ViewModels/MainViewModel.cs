@@ -108,10 +108,10 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         return SendAsync(Commands.Power(on), s => s with { IsOn = on });
     }
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = true)]
     private Task IncreaseTargetAsync() => ChangeTargetAsync(+1);
 
-    [RelayCommand]
+    [RelayCommand(AllowConcurrentExecutions = true)]
     private Task DecreaseTargetAsync() => ChangeTargetAsync(-1);
 
     private async Task ChangeTargetAsync(int direction)

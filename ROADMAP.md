@@ -98,11 +98,17 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): `MainViewModel`, `OptionGroup`, `ControlPage`. Rendering checked in
   > 1.4a demo mode. Code written; path not walked.
 
-- [ ] **1.4a Demo mode.**
+- [x] **1.4a Demo mode.**
   Origin: agent cannot use the real token, so it cannot see the control screen. Scope: `--demo`
   argument runs the app against `DemoSmartThingsClient` (embedded scrubbed status, commands
   applied in memory); title shows "(demo)". Acceptance: the control page renders the fixture
   state and reacts to clicks, captured by the agent.
+  > Validation (2026-10-12): demo renders the real fixture; clicks via UI Automation on WindFree,
+  > Turbo and three times "+" gave WindFree, Turbo and 28° after the re-read. Found and fixed on
+  > the way: (1) binding `ItemsSource` to a Core collection crashed WinUI (COMException
+  > 0x80040111), so option tiles are built in code; (2) "+"/"−" were disabled for ~2.6 s after a
+  > click, defeating the debounce. Added `%LocalAppData%\WindFreeControl\crash.log` for unhandled
+  > exceptions.
 
 - [ ] **1.5 Main path walked on the real unit (user).**
   Origin: definition of done. Scope: user runs the AOT published exe, pastes the token, turns the

@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace WindFreeControl.Core.SmartThings;
 
@@ -29,6 +30,9 @@ public readonly record struct CommandArgument
             writer.WriteNumberValue(_number);
         }
     }
+
+    public JsonNode ToJsonNode() =>
+        _text is not null ? JsonValue.Create(_text) : JsonValue.Create(_number);
 
     public override string ToString() =>
         _text ?? _number.ToString(CultureInfo.InvariantCulture);
