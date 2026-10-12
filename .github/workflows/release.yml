@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          global-json-file: global.json
+
+      - name: Test
+        run: dotnet test --solution WindFreeControl.slnx -c Release
+
+      - name: Publish (Native AOT)
+        shell: pwsh
+        run: ./publish.ps1 -Version ("${{ github.ref_name }}".TrimStart("v"))
+
+      - name: Zip
+        shell: pwsh
+        run: |
+          $version = "${{ github.ref_name }}".TrimStart("v")
+          Compress-Archive -Path publish/* -DestinationPath "AirTray-$version-win-x64.zip"
+
+      - name: Create release
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ github.ref_name }}" (Get-Item AirTray-*.zip).FullName `
+            --title "AirTray ${{ github.ref_name }}" --notes-file docs/release-notes.md

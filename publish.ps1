@@ -1,6 +1,7 @@
 param(
     # Use when the MSVC x64 build tools are missing: self-contained ReadyToRun build instead of Native AOT.
-    [switch]$NoAot
+    [switch]$NoAot,
+    [string]$Version
 )
 
 $ErrorActionPreference = "Stop"
@@ -13,7 +14,8 @@ $out = Join-Path $PSScriptRoot "publish"
 if (Test-Path $out) { Remove-Item -Recurse -Force $out }
 
 $extra = @()
-if ($NoAot) { $extra = @("-p:PublishAot=false", "-p:PublishReadyToRun=true") }
+if ($NoAot) { $extra += @("-p:PublishAot=false", "-p:PublishReadyToRun=true") }
+if ($Version) { $extra += "-p:Version=$Version" }
 
 dotnet publish src/WindFreeControl.App -c Release -r win-x64 -o $out --nologo -warnaserror @extra
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
