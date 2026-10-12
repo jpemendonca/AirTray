@@ -72,10 +72,11 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): client, DTOs (source-generated JSON), command builders and error
   > mapping in Core; tests for the six command bodies and 401. Code written; caller arrives in 1.3.
 
-- [ ] **1.2 AcState parsing (control fields).**
+- [x] **1.2 AcState parsing (control fields).**
   Origin: SPECS device model. Scope: `IsOn`, room temperature, humidity, target + range, mode,
   fan, wind direction, optional mode, each with options (available ?? supported). Unknown values
   kept raw. Caller: 1.4. Acceptance: test on the real fixture.
+  > Validation (2026-10-12): `AcState.Parse` + `StatusReader`; real fixture test green. Code written.
 
 - [ ] **1.3 First-run token setup and discovery.**
   Origin: main path. Scope: `ITokenStore` + `CredentialLockerTokenStore`; `TokenValidation`;
