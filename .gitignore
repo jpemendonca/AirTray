@@ -1,0 +1,63 @@
+# Build output
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+[Ll]ogs/
+publish/
+artifacts/
+AppPackages/
+BundleArtifacts/
+*.appx
+*.msix
+*.msixbundle
+*.appinstaller
+
+# IDEs
+.vs/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# Test results and coverage
+TestResults/
+[Tt]est[Rr]esult*/
+coverage*.json
+coverage*.xml
+*.coverage
+*.trx
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+!**/[Pp]ackages/build/
+project.lock.json
+project.fragment.lock.json
+
+# Signing and secrets
+*.pfx
+*.snk
+*.publishsettings
+.env
+.env.*
+secrets.json
+
+# Local device dumps (contain account ids)
+tools/out/
+
+# OS
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Claude Code local settings
+.claude/settings.local.json
