@@ -7,7 +7,8 @@ public sealed record LaunchOptions(
     TimeSpan SnapshotDelay,
     string? Theme,
     string? Language,
-    string? Page)
+    string? Page,
+    int SnapshotWidth)
 {
     public static LaunchOptions Parse(IReadOnlyList<string> args)
     {
@@ -25,6 +26,7 @@ public sealed record LaunchOptions(
             TimeSpan.FromSeconds(delay),
             ValueAfter("--theme"),
             ValueAfter("--lang"),
-            ValueAfter("--page"));
+            ValueAfter("--page"),
+            int.TryParse(ValueAfter("--snapshot-width"), out var width) ? width : 440);
     }
 }

@@ -253,6 +253,28 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Validation (2026-10-12): demo test: first copy started hidden; a second launch exited with code 0
   > and the first copy's window became visible. Published build updated.
 
+## Phase 6 — After first use
+
+- [x] **6.1 Content column limited when maximized.**
+  Origin: user, 2026-10-12: maximized, the cards stretch and look odd. Scope: control, settings and
+  setup pages keep a centered column of at most 480 px; the window can still maximize.
+  Acceptance: off-screen snapshot at 1200 px wide shows a centered column.
+  > Validation (2026-10-12): control and settings pages capped at 480 px and centered; off-screen
+  > snapshot at 1200 px confirms. Setup page was already capped at 380 px.
+
+- [x] **6.2 Remove the energy card.**
+  Origin: user, 2026-10-12: the total is the lifetime counter and "power now" is a ~15 min interval
+  average that often reads 0 W, which is confusing. Scope: remove the card, its strings, view model
+  properties and `AcState` fields. Acceptance: no energy UI; gate green.
+  > Validation (2026-10-12): card, strings, view model properties, AcState fields and the energy
+  > assertions removed; snapshot shows Conforto e opções right after Modos especiais.
+
+- [ ] **6.3 Security review before making the repository public.**
+  Origin: user, 2026-10-12. Scope: run the review with Sonnet sub-agents: git history and fixtures
+  for secrets or personal ids, token handling (Credential Locker, logs, crash log), HTTP client,
+  registry writes, P/Invoke code in `TrayIcon`, demo flags. Findings become bullets here.
+  Do not start until the user asks.
+
 ## Phase 5 — Release
 
 - [x] **5.1 Publish and measure.** Final AOT publish; record start time and memory against the

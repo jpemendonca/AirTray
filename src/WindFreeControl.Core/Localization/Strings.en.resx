@@ -159,15 +159,6 @@
   <data name="Optional_windFreeSleep" xml:space="preserve">
     <value>WindFree Sleep</value>
   </data>
-  <data name="Energy_Title" xml:space="preserve">
-    <value>Energy</value>
-  </data>
-  <data name="Energy_Now" xml:space="preserve">
-    <value>Power now</value>
-  </data>
-  <data name="Energy_Total" xml:space="preserve">
-    <value>Total energy</value>
-  </data>
   <data name="Options_Title" xml:space="preserve">
     <value>Comfort and options</value>
   </data>

@@ -27,8 +27,6 @@ public class AcStateTests
         Assert.Null(state.WindDirection.Available);
         Assert.Equal("off", state.OptionalMode.Current);
         Assert.Contains("windFree", state.OptionalMode.Supported);
-        Assert.Equal(216, state.PowerWatts);
-        Assert.Equal(2808106, state.EnergyTotalWh);
         Assert.Equal(100, state.FilterUsagePercent);
         Assert.Equal("wash", state.FilterStatus);
         Assert.False(state.AutoClean);

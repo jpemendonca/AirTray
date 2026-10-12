@@ -13,8 +13,8 @@ In scope:
 - Every control and reading this unit reports as supported (list in [docs/DEVICE.md](docs/DEVICE.md)):
   power, target temperature, mode, fan speed, wind direction, optional modes (WindFree, sleep,
   quiet, smart, speed, WindFree sleep), tropical night mode, auto clean, beep sound,
-  display light (experimental), room temperature, humidity, power and energy, dust filter state
-  and reset, self-check.
+  display light, room temperature, humidity, dust filter state and reset, self-check.
+  (Energy readings removed 2026-10-12, see 6.2.)
 - Tray icon with quick power toggle.
 - UI in Brazilian Portuguese and English, chosen in Settings.
 - Native AOT publish as a single folder with one `.exe`.

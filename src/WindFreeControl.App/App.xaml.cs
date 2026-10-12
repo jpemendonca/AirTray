@@ -44,9 +44,9 @@ public partial class App : Application
                 _window.ShowSettingsForSnapshot();
             }
 
-            _window.ShowOffscreen(options.Theme);
+            _window.ShowOffscreen(options.Theme, options.SnapshotWidth);
             await Task.Delay(options.SnapshotDelay);
-            await Snapshot.SaveAsync(_window.SnapshotTarget, path);
+            await Snapshot.SaveAsync(options.SnapshotWidth > 440 ? _window.RootElement : _window.SnapshotTarget, path);
             Exit();
             return;
         }

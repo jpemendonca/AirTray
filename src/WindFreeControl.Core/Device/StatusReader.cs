@@ -30,13 +30,6 @@ internal readonly struct StatusReader(JsonElement component)
     public double? Number(string capability, string attribute) =>
         Value(capability, attribute) is { ValueKind: JsonValueKind.Number } v ? v.GetDouble() : null;
 
-    public double? ObjectNumber(string capability, string attribute, string property) =>
-        Value(capability, attribute) is { ValueKind: JsonValueKind.Object } obj
-        && obj.TryGetProperty(property, out var number)
-        && number.ValueKind == JsonValueKind.Number
-            ? number.GetDouble()
-            : null;
-
     // Self-check errors arrive as strings or as objects with a "code" property, depending on firmware.
     public IReadOnlyList<string> ErrorCodes(string capability, string attribute)
     {

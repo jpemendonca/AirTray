@@ -58,6 +58,8 @@ public sealed partial class MainWindow : Window
         };
     }
 
+    public UIElement RootElement => RootGrid;
+
     public UIElement SnapshotTarget
     {
         get
@@ -80,7 +82,7 @@ public sealed partial class MainWindow : Window
 
     // Snapshot runs show the window outside every monitor and never activate it, so nothing
     // appears over what the user is doing.
-    public void ShowOffscreen(string? theme)
+    public void ShowOffscreen(string? theme, int width)
     {
         RootGrid.RequestedTheme = theme switch
         {
@@ -91,7 +93,7 @@ public sealed partial class MainWindow : Window
         var light = RootGrid.ActualTheme == ElementTheme.Light;
         RootGrid.Background = new Microsoft.UI.Xaml.Media.SolidColorBrush(
             light ? Windows.UI.Color.FromArgb(255, 0xF3, 0xF3, 0xF3) : Windows.UI.Color.FromArgb(255, 0x20, 0x20, 0x20));
-        AppWindow.MoveAndResize(new RectInt32(-32000, -32000, 440, 820));
+        AppWindow.MoveAndResize(new RectInt32(-32000, -32000, width, 820));
         AppWindow.Show(false);
     }
 

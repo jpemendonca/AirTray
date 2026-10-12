@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <StackPanel Padding="16,0,16,0" Spacing="8">
+        <StackPanel MaxWidth="480" Padding="16,0,16,0" HorizontalAlignment="Stretch" Spacing="8">
             <InfoBar
                 IsClosable="False"
                 IsOpen="{x:Bind ViewModel.HasError, Mode=OneWay}"
@@ -25,7 +25,7 @@
                 Severity="Informational" />
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <StackPanel x:Name="ContentPanel" Padding="16,4,16,16" Spacing="12">
+            <StackPanel x:Name="ContentPanel" MaxWidth="480" Padding="16,4,16,16" Spacing="12">
                 <Border Style="{StaticResource CardStyle}" Padding="20">
                     <Grid RowSpacing="16">
                         <Grid.RowDefinitions>
@@ -124,28 +124,6 @@
                 <views:OptionGroupView Group="{x:Bind ViewModel.FanMode}" />
                 <views:OptionGroupView Group="{x:Bind ViewModel.WindDirection}" />
                 <views:OptionGroupView Group="{x:Bind ViewModel.OptionalMode}" />
-                <Border Style="{StaticResource CardStyle}" Visibility="{x:Bind ViewModel.HasEnergy, Mode=OneWay}">
-                    <StackPanel Spacing="12">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <FontIcon FontSize="16" Glyph="&#xE945;" />
-                            <TextBlock Style="{StaticResource BodyStrongTextBlockStyle}" Text="{x:Bind loc:Strings.Energy_Title}" />
-                        </StackPanel>
-                        <Grid ColumnSpacing="12">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <StackPanel>
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Energy_Now}" />
-                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.PowerNowText, Mode=OneWay}" />
-                            </StackPanel>
-                            <StackPanel Grid.Column="1">
-                                <TextBlock Foreground="{ThemeResource TextFillColorSecondaryBrush}" Style="{StaticResource CaptionTextBlockStyle}" Text="{x:Bind loc:Strings.Energy_Total}" />
-                                <TextBlock Style="{StaticResource SubtitleTextBlockStyle}" Text="{x:Bind ViewModel.EnergyTotalText, Mode=OneWay}" />
-                            </StackPanel>
-                        </Grid>
-                    </StackPanel>
-                </Border>
                 <Border Style="{StaticResource CardStyle}">
                     <StackPanel Spacing="16">
                         <StackPanel Orientation="Horizontal" Spacing="8">

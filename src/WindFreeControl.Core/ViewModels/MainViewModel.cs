@@ -87,15 +87,6 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     public partial string? StaleText { get; set; }
 
     [ObservableProperty]
-    public partial string PowerNowText { get; set; } = "";
-
-    [ObservableProperty]
-    public partial string EnergyTotalText { get; set; } = "";
-
-    [ObservableProperty]
-    public partial bool HasEnergy { get; set; }
-
-    [ObservableProperty]
     public partial double TropicalNightHours { get; set; }
 
     [ObservableProperty]
@@ -426,10 +417,6 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     private void ApplyReadings(AcState state)
     {
-        HasEnergy = state.PowerWatts is not null || state.EnergyTotalWh is not null;
-        PowerNowText = state.PowerWatts is { } watts ? Labels.Format("{0:0} W", watts) : "--";
-        EnergyTotalText = state.EnergyTotalWh is { } wh ? Labels.Format("{0:#,0.#} kWh", wh / 1000) : "--";
-
         HasTropicalNight = state.TropicalNightHours is not null;
         TropicalNightHours = state.TropicalNightHours ?? 0;
         TropicalNightText = state.TropicalNightRemainingMinutes is > 0 and var minutes

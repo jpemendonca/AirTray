@@ -22,10 +22,6 @@ public sealed record AcState
 
     public OptionSet OptionalMode { get; init; } = OptionSet.Empty;
 
-    public double? PowerWatts { get; init; }
-
-    public double? EnergyTotalWh { get; init; }
-
     public double? TropicalNightHours { get; init; }
 
     public double? TropicalNightRemainingMinutes { get; init; }
@@ -70,8 +66,6 @@ public sealed record AcState
             FanMode = main.Options("airConditionerFanMode", "fanMode", "supportedAcFanModes", "availableAcFanModes"),
             WindDirection = main.Options("fanOscillationMode", "fanOscillationMode", "supportedFanOscillationModes", "availableFanOscillationModes"),
             OptionalMode = main.Options("custom.airConditionerOptionalMode", "acOptionalMode", "supportedAcOptionalMode", "availableAcOptionalMode"),
-            PowerWatts = main.ObjectNumber("powerConsumptionReport", "powerConsumption", "power"),
-            EnergyTotalWh = main.ObjectNumber("powerConsumptionReport", "powerConsumption", "energy"),
             TropicalNightHours = main.Number("custom.airConditionerTropicalNightMode", "acTropicalNightModeLevel"),
             TropicalNightRemainingMinutes = main.Number("custom.airConditionerTropicalNightMode", "remainingTime"),
             AutoClean = main.String("custom.autoCleaningMode", "autoCleaningMode") is { } clean ? clean != "off" : null,
