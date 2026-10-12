@@ -90,6 +90,10 @@ dotnet run --project src/WindFreeControl.App   # rodar
 
 O modo demo (`--demo`) e as ferramentas estão descritos no [README em inglês](README.md#demo-mode).
 
+## Licença
+
+[MIT](LICENSE).
+
 ## Aviso
 
 Projeto pessoal, sem vínculo com a Samsung. Samsung, WindFree e SmartThings são marcas da

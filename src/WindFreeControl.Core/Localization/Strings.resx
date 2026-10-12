@@ -37,7 +37,7 @@
     <value>Nenhum ar-condicionado encontrado nesta conta.</value>
   </data>
   <data name="Error_Unauthorized" xml:space="preserve">
-    <value>O SmartThings recusou o token. Ele pode ter expirado: tokens criados depois de 30/12/2024 valem só 24 horas. Gere um novo e cole aqui.</value>
+    <value>O SmartThings recusou o token. Ele pode ter expirado ou sido revogado. Gere um novo e cole aqui.</value>
   </data>
   <data name="Error_Forbidden" xml:space="preserve">
     <value>O token não tem permissão para controlar dispositivos (r:devices:*, x:devices:*).</value>

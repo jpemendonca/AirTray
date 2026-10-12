@@ -108,6 +108,10 @@ python tools/make-icons.py                            # app and tray icons (Pill
 python tools/make-readme-images.py <snapshot-folder>  # the images in this README (Pillow)
 ```
 
+## License
+
+[MIT](LICENSE).
+
 ## Disclaimer
 
 Not affiliated with or endorsed by Samsung. Samsung, WindFree and SmartThings are trademarks of
