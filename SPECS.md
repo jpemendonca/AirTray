@@ -223,3 +223,5 @@ from `$env:ST_TOKEN` in the user's own terminal; its output folder is git-ignore
 - 2026-10-12: Demo mode (`--demo`) uses an in-memory settings store and a no-op system
   integration, so agent checks never touch the user's settings or the Run registry key.
   `--snapshot`, `--theme`, `--lang` and `--page` exist only for these checks.
+- 2026-10-12: Pre-commit hook removed at the user's request (the WinUI Release build made each
+  commit take minutes). `./gate.ps1` is still required before committing; agents run it by hand.

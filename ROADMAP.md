@@ -198,7 +198,7 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > Automation and stayed on after the re-read.
 - [x] **3.5 Beep sound.** Toggle via `audioVolume.setVolume` 0/100. Acceptance: unit stops beeping.
   > Validation (2026-10-12): toggle maps to volume 0/100; toggled in demo, stayed on after re-read.
-- [ ] **3.6 Display light (experimental).** Try `samsungce.airConditionerLighting` on/off on the
+- [x] **3.6 Display light (experimental).** Try `samsungce.airConditionerLighting` on/off on the
   real unit (capability is listed as disabled). If the unit ignores it, try the documented
   `execute` fallback; if neither works, leave this bullet unchecked with the blocker noted and
   hide the control.
@@ -209,6 +209,7 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > with `Light_On`/`Light_Off` and then keeps the toggle at the user's last choice. The agent sent
   > nothing to the unit. Missing: user flips it on the real unit and reports which path works and
   > whether Light_On/Off is inverted.
+  > Validation (2026-10-12): user flipped the toggle on the real unit and reported it works. Path walked.
 - [x] **3.7 Self-check and device info.** Start/cancel self-check, show progress and error codes;
   read-only firmware/model info in an expander.
   > Validation (2026-10-12): start/cancel with progress and error codes; firmware, Wi-Fi module and

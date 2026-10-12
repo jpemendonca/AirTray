@@ -34,7 +34,6 @@ Unhandled errors go to `%LocalAppData%\WindFreeControl\crash.log`.
 ## Test and gate
 
 ```powershell
-git config core.hooksPath .githooks   # once per clone
 ./gate.ps1
 ```
 

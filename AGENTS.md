@@ -53,8 +53,8 @@ one-line note below it with the blocker, and move to the next one.
 
 It runs `dotnet format --verify-no-changes` (minus IDE0005: format cannot see the resource class
 generated at build time; the build enforces IDE0005 instead), `dotnet build -c Release -warnaserror` (including
-AOT/trim analyzers) and `dotnet test`. The pre-commit hook in `.githooks/` calls it; enable it once
-per clone with `git config core.hooksPath .githooks`.
+AOT/trim analyzers) and `dotnet test`. Run it before every commit. There is no pre-commit hook: the user removed it
+on 2026-10-12 because the WinUI Release build made every commit take minutes.
 
 The gate does not open the app, does not talk to the real device and does not prove a command
 works. A green gate is necessary, not proof that the product works.
@@ -84,7 +84,6 @@ works. A green gate is necessary, not proof that the product works.
 ```
 WindFreeControl.slnx
 gate.ps1                     quality gate
-.githooks/pre-commit         calls gate.ps1
 src/WindFreeControl.Core/
   SmartThings/               HTTP client, DTOs, JSON context, command builders
   Device/                    AcState (parsed status), capability enums and labels
