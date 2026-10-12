@@ -4,8 +4,11 @@ The only work queue. Take the first unchecked bullet. Do not skip, do not batch.
 
 ## Definition of done
 
-- **Code written**: gate green (`./gate.ps1`), tests per SPECS.md policy, ROADMAP updated,
+- **Code written**: gate green (`./gate.ps1`), essential tests only (SPECS.md), ROADMAP updated,
   conventional commit.
+- The user checks the product only at bullet 1.5. After the user's OK there, the agent finishes
+  every remaining phase without stopping for review; path walks after 1.5 are done by the agent
+  where possible and otherwise recorded as "path not walked".
 - **Path walked**: the user opened the app and used the feature on the real air conditioner.
   Only the user can do this (it needs the real token). Each validation note says which of the two
   happened. A bullet that only has code written says "code written, path not walked".
@@ -61,16 +64,18 @@ User fixes and requests enter here as new bullets before any code.
 
 Ugly is fine. Walkable from first run to controlling the unit.
 
-- [ ] **1.1 SmartThings client.**
+- [x] **1.1 SmartThings client.**
   Origin: SPECS contracts. Scope: `SmartThingsClient` with `GetDevicesAsync`, `GetStatusAsync`,
   `SendAsync(params DeviceCommand[])`; DTOs + `SmartThingsJsonContext`; command builders for the
   table in SPECS; `SmartThingsError` for 401/403/422/429/network. Caller: 1.3. Acceptance: tests
-  for URLs, auth header, body JSON per command, error mapping.
+  for body JSON per command and 401 mapping.
+  > Validation (2026-10-12): client, DTOs (source-generated JSON), command builders and error
+  > mapping in Core; tests for the six command bodies and 401. Code written; caller arrives in 1.3.
 
 - [ ] **1.2 AcState parsing (control fields).**
   Origin: SPECS device model. Scope: `IsOn`, room temperature, humidity, target + range, mode,
   fan, wind direction, optional mode, each with options (available ?? supported). Unknown values
-  kept raw. Caller: 1.4. Acceptance: tests on the real fixture and on null/missing/unknown variants.
+  kept raw. Caller: 1.4. Acceptance: test on the real fixture.
 
 - [ ] **1.3 First-run token setup and discovery.**
   Origin: main path. Scope: `ITokenStore` + `CredentialLockerTokenStore`; `TokenValidation`;
@@ -78,15 +83,15 @@ Ugly is fine. Walkable from first run to controlling the unit.
   error text); on success discover the air conditioner and navigate to the control page; on
   start with a stored token go straight to the control page; 401 anywhere returns to setup.
   Localization infrastructure lands here: `Strings.resx` + `Strings.en.resx`, culture from the
-  system, parity test. Acceptance: tests for validation, discovery choice, 401 → setup.
+  system, parity test. Acceptance: parity test; app opens on setup without a token.
 
 - [ ] **1.4 Control screen with live state and all main controls.**
   Origin: main path. Scope: `MainViewModel` + `ControlPage`: power button, room temperature and
   humidity, target temperature with +/- (debounced), mode, fan, wind direction, optional mode
   (WindFree etc.) as selectable lists built from `AcState` options; optimistic update, POST,
   re-read after 2 s, rollback + `InfoBar` on failure; 15 s refresh while visible; stale marker
-  on network loss. Plain stacked layout. Acceptance: view model tests for optimistic update,
-  rollback, debounce (one command for five quick clicks), refresh.
+  on network loss. Plain stacked layout. Acceptance: build green; the control page renders the
+  real fixture state through the view model (checked by running the app).
 
 - [ ] **1.5 Main path walked on the real unit (user).**
   Origin: definition of done. Scope: user runs the AOT published exe, pastes the token, turns the

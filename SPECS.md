@@ -180,16 +180,15 @@ the device is controlled only through the cloud.
 
 ## Tests
 
-Policy: happy-path unit tests on Core, plus parsing of the real payloads. No UI tests, no tests
-against the real API.
+Policy: essential tests only (revised 2026-10-12, see decision log). A test is written only where
+a silent break would be expensive and is not obvious when using the app:
 
-- `AcState.Parse` against the real `status.json` fixture (ids scrubbed) and small hand-made
-  variants for null/missing/unknown values.
-- Command builders produce exactly the JSON in the table above.
-- `SmartThingsClient` against a fake `HttpMessageHandler`: auth header, URLs, error mapping.
-- View models with fake `ITokenStore`, `ISettingsStore`, `IUiDispatcher` and a fake client:
-  optimistic update, rollback on failure, setpoint debounce.
-- Localization: every key in `Strings.resx` exists in `Strings.en.resx` and vice versa.
+- command bodies sent to SmartThings (a wrong body silently does nothing on the unit);
+- `AcState.Parse` against the real `status.json` fixture;
+- client error mapping for 401 (it drives the return to the setup screen);
+- localization key parity between `Strings.resx` and `Strings.en.resx`.
+
+Everything else is verified by using the app. No UI tests, never the real API.
 
 ## Secrets and config
 
@@ -217,3 +216,5 @@ from `$env:ST_TOKEN` in the user's own terminal; its output folder is git-ignore
 - 2026-10-12: `GenerateDocumentationFile` is on only so the build enforces IDE0005 (unused
   usings). CS1591 (missing XML doc) is turned off project-wide because the comment policy does not
   use XML doc comments. This is policy, not a suppression to pass the gate.
+- 2026-10-12: Test policy reduced from "happy-path on Core + view models" to essential tests only,
+  at the user's request (speed over coverage on a personal tool).

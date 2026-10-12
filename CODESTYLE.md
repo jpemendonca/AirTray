@@ -70,7 +70,8 @@ JsonSerializer.Deserialize(json, SmartThingsJsonContext.Default.DeviceList);
 
 ## Tests
 
-- Framework: xUnit v3. Test project mirrors Core folders.
+- Write a test only when SPECS.md "Tests" lists the case. Framework: xUnit v3. Test project
+  mirrors Core folders.
 - Fakes, not mocks library: `FakeHttpHandler`, `FakeTokenStore`, `ImmediateDispatcher`. No real
   network, never the real device.
 - Name: `Method_Scenario_Behavior`. `DisplayName` with one sentence in English saying what is
