@@ -139,6 +139,11 @@ public sealed partial class MainWindow : Window
         {
             if (_control is not null && _flyout is not null)
             {
+                if (!_flyout.IsOpen)
+                {
+                    _control.RefreshNow();
+                }
+
                 _flyout.Toggle();
             }
             else
@@ -148,6 +153,24 @@ public sealed partial class MainWindow : Window
         };
         _tray.MenuItems = BuildTrayMenu;
         UpdateTray();
+
+        // Both events arrive on background threads.
+        System.Net.NetworkInformation.NetworkChange.NetworkAvailabilityChanged += (_, e) =>
+        {
+            if (e.IsAvailable)
+            {
+                DispatcherQueue.TryEnqueue(() => _control?.RefreshNow());
+            }
+        };
+        Microsoft.Windows.System.Power.PowerManager.SystemSuspendStatusChanged += (_, _) =>
+        {
+            if (Microsoft.Windows.System.Power.PowerManager.SystemSuspendStatus
+                is Microsoft.Windows.System.Power.SystemSuspendStatus.AutoResume
+                or Microsoft.Windows.System.Power.SystemSuspendStatus.ManualResume)
+            {
+                DispatcherQueue.TryEnqueue(() => _control?.RefreshNow());
+            }
+        };
 
         if (startHidden)
         {
@@ -284,6 +307,7 @@ public sealed partial class MainWindow : Window
         AppWindow.Show();
         Activate();
         _control?.SetWindowHidden(false);
+        _control?.RefreshNow();
     }
 
     private void ExitApp()

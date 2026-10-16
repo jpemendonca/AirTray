@@ -341,6 +341,20 @@ Ugly is fine. Walkable from first run to controlling the unit.
   > address, verified: zero hits in `git log -p --all`); force-pushed; release v1.0.0 rebuilt from
   > the clean history; expired-token message made neutral (no 24 h claim); repository made public.
 
+- [x] **6.8 Faster recovery after sleep or network loss.**
+  Origin: user, 2026-10-16: after the PC resumed, the app showed the unit off with "Cannot reach
+  SmartThings" while it was on; it only caught up a while later. Causes: hidden in the tray it
+  refreshes every 60 s, opening the window or flyout does not refresh, a failed refresh waits a
+  full interval, the warning is cleared only after a successful command, and a failed device
+  discovery at startup never retries. Scope: refresh on opening the window or flyout, on network
+  becoming available and on resume from sleep; retry 5 s after a network failure (discovery
+  included); clear refresh warnings after the next successful read. Acceptance: gate green;
+  user sees the right state within seconds of waking the PC or opening the flyout.
+  > Validation (2026-10-16): `RefreshNow` on window/flyout open, on network available and on resume
+  > (PowerManager.SystemSuspendStatusChanged); network failures retry after 5 s, startup discovery
+  > included; read warnings cleared by the next good read, command rejections kept. Gate green.
+  > Code written; the real resume scenario is for the user to observe.
+
 ## Phase 5 — Release
 
 - [x] **5.1 Publish and measure.** Final AOT publish; record start time and memory against the

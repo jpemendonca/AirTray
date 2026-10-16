@@ -11,6 +11,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 {
     private static readonly TimeSpan RefreshInterval = TimeSpan.FromSeconds(15);
     private static readonly TimeSpan HiddenRefreshInterval = TimeSpan.FromSeconds(60);
+    private static readonly TimeSpan NetworkRetryDelay = TimeSpan.FromSeconds(5);
     private static readonly TimeSpan ConfirmDelay = TimeSpan.FromSeconds(2);
     private static readonly TimeSpan TargetDebounce = TimeSpan.FromMilliseconds(600);
 
@@ -24,6 +25,8 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
     private int _commandsInFlight;
     private bool _applying;
     private bool? _lightViaExecute;
+    private bool _readErrorShown;
+    private bool _retryScheduled;
     private DateTimeOffset _lastUpdate;
 
     public MainViewModel(ISmartThingsClient client)
@@ -165,12 +168,21 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     public async Task StartAsync()
     {
+        // At Windows startup or right after resume the network may not be up yet, so keep trying.
         var devices = await _client.GetDevicesAsync(_lifetime.Token);
-        if (!devices.IsSuccess)
+        while (!devices.IsSuccess)
         {
-            HandleError(devices.Error);
-            return;
+            HandleError(devices.Error, fromRead: true);
+            if (devices.Error.Kind != SmartThingsErrorKind.Network)
+            {
+                return;
+            }
+
+            await Task.Delay(NetworkRetryDelay, _lifetime.Token);
+            devices = await _client.GetDevicesAsync(_lifetime.Token);
         }
+
+        ClearReadError();
 
         var device = DeviceDiscovery.PickAirConditioner(devices.Value);
         if (device is null)
@@ -196,6 +208,15 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
 
     public void SetWindowHidden(bool hidden) =>
         _refreshTimer.Period = hidden ? HiddenRefreshInterval : RefreshInterval;
+
+    // Called when the window or flyout opens, the network comes back or the PC resumes.
+    public void RefreshNow()
+    {
+        if (_deviceId is not null && !_lifetime.IsCancellationRequested)
+        {
+            Fire(RefreshAsync());
+        }
+    }
 
     [RelayCommand]
     private Task TogglePowerAsync()
@@ -376,15 +397,22 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         var result = await _client.GetStatusAsync(_deviceId, _lifetime.Token);
         if (!result.IsSuccess)
         {
-            HandleError(result.Error);
+            HandleError(result.Error, fromRead: true);
             if (_lastUpdate != default)
             {
                 StaleText = Labels.Format(Strings.Control_Stale, _lastUpdate.LocalDateTime);
             }
 
+            if (result.Error.Kind == SmartThingsErrorKind.Network && !_retryScheduled)
+            {
+                _retryScheduled = true;
+                Fire(RetryReadAsync());
+            }
+
             return;
         }
 
+        ClearReadError();
         using var document = result.Value;
         var state = AcState.Parse(document);
         _lastUpdate = DateTimeOffset.Now;
@@ -393,6 +421,30 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         if (_commandsInFlight == 0 && _pendingTarget is null)
         {
             Apply(state);
+        }
+    }
+
+    private async Task RetryReadAsync()
+    {
+        try
+        {
+            await Task.Delay(NetworkRetryDelay, _lifetime.Token);
+        }
+        finally
+        {
+            _retryScheduled = false;
+        }
+
+        await RefreshAsync();
+    }
+
+    // Only warnings raised by a failed read are cleared by a good read; a rejected command stays visible.
+    private void ClearReadError()
+    {
+        if (_readErrorShown)
+        {
+            Error = null;
+            _readErrorShown = false;
         }
     }
 
@@ -476,7 +528,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         YearText = state.ReleaseYear is { } year ? $"{(year < 100 ? 2000 + year : year):0}" : "--";
     }
 
-    private void HandleError(SmartThingsError error)
+    private void HandleError(SmartThingsError error, bool fromRead = false)
     {
         if (error.Kind == SmartThingsErrorKind.Unauthorized)
         {
@@ -485,6 +537,7 @@ public sealed partial class MainViewModel : ObservableObject, IDisposable
         }
 
         Error = Labels.ForError(error);
+        _readErrorShown = fromRead;
         IsLoading = false;
     }
 
